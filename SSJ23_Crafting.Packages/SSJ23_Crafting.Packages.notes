@@ -1,0 +1,8 @@
+If multiple dotnet paths are found in the system env paths variable.
+command: "where.exe dotnet"
+
+To make vscode load the correct one, launch vscode through cmd with
+SET PATH=%{dotnet_path}%;%PATH%
+code {project_path}
+
+This will prepend the correct path before the system paths.

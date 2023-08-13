@@ -1,0 +1,13 @@
+{
+    "name": "com.jkpenner.ssj23.crafting.core",
+    "version": "0.1.0",
+    "displayName": "SSJ23 Crafting - Core",
+    "description": "Core scripts for the SSJ23 Crafting project.",
+    "unity": "2022.3",
+    "unityRelease": "5f1",
+    "author": {
+        "name": "Jacob Penner",
+        "email": "jkpenner@live.com",
+        "url": "https://www.jkpenner.com"
+    }
+}

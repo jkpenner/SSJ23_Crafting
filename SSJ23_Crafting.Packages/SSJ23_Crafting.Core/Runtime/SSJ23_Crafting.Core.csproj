@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <ProjectName>SSJ23_Crafting.Core</ProjectName>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    </PropertyGroup>
+
+    <Target Name="ExtractConfigValues" BeforeTargets="BeforeResolveReferences">
+        <!-- Query AssemblyName value from the SSJ23_Crafting.Packages.config file -->
+        <XmlPeek XmlInputPath="../../SSJ23_Crafting.Packages.config" Query="AppSettings/add[@key='UnityProjectName']/@value">
+            <Output TaskParameter="Result" PropertyName="UnityProjectName" />
+        </XmlPeek>
+
+        <!-- Query UnityEditorPath value from the SSJ23_Crafting.Packages.config file -->
+        <XmlPeek XmlInputPath="../../SSJ23_Crafting.Packages.config" Query="AppSettings/add[@key='UnityEditorPath']/@value">
+            <Output TaskParameter="Result" PropertyName="UnityEditorPath" />
+        </XmlPeek>
+
+        <Error Text="The UnityProjectName value was not set in the SSJ23_Crafting.Packages.config file." Condition=" $(UnityProjectName) == '' " />
+    </Target>
+
+    <Target Name="SetupProjectGroups" BeforeTargets="BeforeResolveReferences" AfterTargets="ExtractConfigValues">
+        <!-- Setup Paths -->
+        <PropertyGroup>
+            <!-- Check if the UnityEditorPath value was assigned else use the UNITY_EDITOR environment value -->
+            <UnityEditorPath Condition="'$(UnityEditorPath)' == ''">$(UNITY_EDITOR)</UnityEditorPath>
+
+            <!-- Directories for each unity project -->
+            <UnitProjectDir>$(SolutionDir)..\$(UnityProjectName)</UnitProjectDir>
+            <UnityAssetDir>$(UnitProjectDir)\Assets\</UnityAssetDir>
+            <UnityAssembliesDir>$(UnitProjectDir)\Library\ScriptAssemblies\</UnityAssembliesDir>
+
+            <!-- Path to the UnityEditor -->
+            <UnityEngineDlls>$(UnityEditorPath)\Data\Managed\UnityEngine\</UnityEngineDlls>
+        </PropertyGroup>
+
+        <Error Text="The Unity Project Asset path does not exist. '$(UnityAssetDir)'" Condition="!Exists($(UnityAssetDir))" />
+        <Error Text="The UnityEngine Dlls path does not exist. '$(UnityEngineDlls)'" Condition="!Exists($(UnityEngineDlls))" />
+        <!-- <Error Text="The Dependencies path does not exist. '$(Dependencies)'" Condition="!Exists($(Dependencies))" /> -->
+
+        <ItemGroup>
+            <!-- References to any required Unity Dlls -->
+            <Reference Include="$(UnityEngineDlls)\UnityEngine.dll" />
+            <Reference Include="$(UnityEngineDlls)\UnityEngine.*.dll" />
+
+            <!-- References to any dlls required within UnityAssembliesDir -->
+            <!-- <Reference Include="$(UnityAssembliesDir)\*.dll" /> -->
+            <Reference Include="$(UnityAssembliesDir)UnityEngine.UI.dll" />
+            <Reference Include="$(UnityAssembliesDir)UnityEngine.UIModule.dll" />
+            <Reference Include="$(UnityAssembliesDir)Unity.InputSystem.dll" />
+            <Reference Include="$(UnityAssembliesDir)Unity.RenderPipelines.Universal.Runtime.dll" />
+            <Reference Include="$(UnityAssembliesDir)Unity.Collections.dll" />
+            <Reference Include="$(UnityAssembliesDir)Unity.TextMeshPro.dll" />
+
+            
+        </ItemGroup>
+    </Target>
+</Project>
