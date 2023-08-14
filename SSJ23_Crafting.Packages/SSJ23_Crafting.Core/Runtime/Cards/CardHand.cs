@@ -16,5 +16,23 @@ namespace SSJ23_Crafting
         {
             Cards.Add(card);
         }
+
+        public bool HasCard(CardData target)
+        {
+            foreach(var card in Cards)
+            {
+                if (card == target)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool RemoveCard(CardData target)
+        {
+            return Cards.Remove(target);
+        }
     }
 }

@@ -19,14 +19,20 @@ namespace SSJ23_Crafting
         public Player PlayerOne { get; private set; }
         public Player PlayerTwo { get; private set; }
 
+        private GameEvents events;
+
 
         private void Awake()
         {
+            events = GameEvents.FindOrCreateInstance();
+
             PlayerOne = new Player(PlayerId.One, new UserInputController());
             PlayerOne.Deck.SetSource(playerOneDeckData);
+            PlayerOne.Deck.Populate();
 
             PlayerTwo = new Player(PlayerId.Two, new ComputerController());
             PlayerTwo.Deck.SetSource(playerTwoDeckData);
+            PlayerTwo.Deck.Populate();
         }
 
         private IEnumerator Start()
@@ -34,15 +40,30 @@ namespace SSJ23_Crafting
             Debug.Log("Game Starting");
 
             Debug.Log("Drawing Player Hand");
-            while (PlayerOne.Hand.CardCount < GameSettings.MaxHandSize && !PlayerOne.Deck.IsEmpty)
+            while (PlayerOne.Hand.CardCount < GameSettings.MaxHandSize)
             {
+                if (PlayerOne.Deck.IsEmpty)
+                {
+                    Debug.Log("Can not draw more cards. Deck is empty");
+                    break;
+                }
+
                 if (PlayerOne.Deck.TryDraw(out var card))
                 {
                     PlayerOne.Hand.AddCard(card);
+                    events.CardDrawn.Emit(new CardEventArgs
+                    {
+                        playerId = PlayerOne.Id,
+                        card = card
+                    });
                     Debug.Log($"Player Drawing Card {PlayerOne.Hand.CardCount}");
 
                     // Todo: Wait for draw animation to finish
                     yield return new WaitForSeconds(0.1f);
+                }
+                else
+                {
+                    Debug.Log("Failed to draw card from deck");
                 }
             }
 
@@ -52,6 +73,11 @@ namespace SSJ23_Crafting
                 if (PlayerTwo.Deck.TryDraw(out var card))
                 {
                     PlayerTwo.Hand.AddCard(card);
+                    events.CardDrawn.Emit(new CardEventArgs
+                    {
+                        playerId = PlayerTwo.Id,
+                        card = card
+                    });
                 }
             }
 

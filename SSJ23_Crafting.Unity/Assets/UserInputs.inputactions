@@ -1,0 +1,76 @@
+{
+    "name": "UserInputs",
+    "maps": [
+        {
+            "name": "UI",
+            "id": "d04c5e77-61db-481a-81ad-9caadd4ac5e0",
+            "actions": [
+                {
+                    "name": "ScreenPress",
+                    "type": "Button",
+                    "id": "c31fac1a-3eb4-4813-b54d-306ca4a66455",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ScreenPosition",
+                    "type": "Value",
+                    "id": "dcc7861c-761f-40d0-a704-131bae3b9521",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "30610213-df2b-4c1b-8b62-724d55548e3a",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ScreenPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3a206586-3736-41af-b826-b1fec4ed17a8",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ScreenPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e9c84cf8-2fb4-45d3-9787-9b9200066dc7",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ScreenPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b8c2aef0-c1e5-42a3-ac87-a44649e619a9",
+                    "path": "<Touchscreen>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ScreenPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

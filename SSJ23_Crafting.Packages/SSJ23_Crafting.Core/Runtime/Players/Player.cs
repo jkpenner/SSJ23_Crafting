@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace SSJ23_Crafting
@@ -23,6 +24,10 @@ namespace SSJ23_Crafting
 
         private GameEvents events;
 
+        public event Action<CardData> CardDrawn;
+        public event Action<CardData> CardDiscarded;
+        public event Action<CardData> CardUsed;
+
         public Player(PlayerId id, PlayerController controller)
         {
             Id = id;
@@ -36,9 +41,48 @@ namespace SSJ23_Crafting
             events = GameEvents.FindOrCreateInstance();
         }
 
+        public bool IsCardUsable(CardData card)
+        {
+            if (Resource < card.ResourceCost)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public void UseCard(CardData card)
         {
+            if (!IsCardUsable(card) || !Hand.RemoveCard(card))
+            {
+                return;
+            }
 
+            // Card is usable and was in hand
+            Resource -= card.ResourceCost;
+            events.CardUsed.Emit(new CardEventArgs
+            {
+                playerId = Id,
+                card = card
+            });
+
+            FillHand();
+        }
+
+        public void DiscardCard(CardData card)
+        {
+            if (!Hand.RemoveCard(card))
+            {
+                return;
+            }
+
+            events.CardDiscarded.Emit(new CardEventArgs
+            {
+                playerId = Id,
+                card = card
+            });
+
+            FillHand();
         }
 
         public void Enable()
@@ -88,6 +132,27 @@ namespace SSJ23_Crafting
 
             IsEnabled = false;
             Controller.OnDisable(this);
+        }
+
+        private void FillHand()
+        {
+            while (Hand.CardCount < GameSettings.MaxHandSize)
+            {
+                if (Deck.TryDraw(out var card))
+                {
+                    Hand.AddCard(card);
+                    events.CardDrawn.Emit(new CardEventArgs
+                    {
+                        playerId = Id,
+                        card = card
+                    });
+                }
+                else
+                {
+                    // Failed to draw card from deck, deck may be empty
+                    break;
+                }
+            }
         }
     }
 }
