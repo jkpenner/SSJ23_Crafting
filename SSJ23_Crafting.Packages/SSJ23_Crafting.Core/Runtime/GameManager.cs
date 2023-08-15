@@ -42,64 +42,17 @@ namespace SSJ23_Crafting
         private IEnumerator Start()
         {
             Debug.Log("Game Starting");
-
             Debug.Log("Drawing Player Hand");
-            while (PlayerOne.Hand.CardCount < GameSettings.MaxHandSize)
-            {
-                if (PlayerOne.Deck.IsEmpty)
-                {
-                    // Temp: When deck is empty re populate and shuffle
-                    // Debug.Log("Can not draw more cards. Deck is empty");
-                    // break;
-
-                    PlayerOne.Deck.Populate();
-                    PlayerOne.Deck.Shuffle();
-                }
-
-                if (PlayerOne.Deck.TryDraw(out var card))
-                {
-                    PlayerOne.Hand.AddCard(card);
-                    events.CardDrawn.Emit(new CardEventArgs
-                    {
-                        playerId = PlayerOne.Id,
-                        card = card
-                    });
-                    Debug.Log($"Player Drawing Card {PlayerOne.Hand.CardCount}");
-
-                    // Todo: Wait for draw animation to finish
-                    yield return new WaitForSeconds(0.1f);
-                }
-                else
-                {
-                    Debug.Log("Failed to draw card from deck");
-                }
-            }
-
-            Debug.Log("Drawing Enemy Hand");
-            while (PlayerTwo.Hand.CardCount < GameSettings.MaxHandSize)
-            {
-                if (PlayerTwo.Deck.IsEmpty)
-                {
-                    PlayerTwo.Deck.Populate();
-                    PlayerTwo.Deck.Shuffle();
-                }
-
-                if (PlayerTwo.Deck.TryDraw(out var card))
-                {
-                    PlayerTwo.Hand.AddCard(card);
-                    events.CardDrawn.Emit(new CardEventArgs
-                    {
-                        playerId = PlayerTwo.Id,
-                        card = card
-                    });
-                }
-            }
+            PlayerOne.FillHand();
+            PlayerTwo.FillHand();
 
             // for (int i = 3; i > 0; i--)
             // {
             //     Debug.Log($"Count Down: {i}");
             //     yield return new WaitForSeconds(1.0f);
             // }
+
+            yield return null;
 
             Debug.Log("Game Started");
             SetGameState(GameState.Active);

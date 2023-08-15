@@ -136,10 +136,16 @@ namespace SSJ23_Crafting
             Controller.OnDisable(this);
         }
 
-        private void FillHand()
+        public void FillHand()
         {
             while (Hand.CardCount < GameSettings.MaxHandSize)
             {
+                if (Deck.IsEmpty && GameSettings.RepopulateEmptyDeck)
+                {
+                    Deck.Populate();
+                    Deck.Shuffle();
+                }
+
                 if (Deck.TryDraw(out var card))
                 {
                     Hand.AddCard(card);

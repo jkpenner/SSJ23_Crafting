@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SSJ23_Crafting
@@ -13,8 +14,13 @@ namespace SSJ23_Crafting
         private GameEvents events;
         private GameManager gameManager;
 
+        private Coroutine drawCardRoutine;
+        private Queue<CardData> drawCardQueue;
+
         private void Awake()
         {
+            drawCardQueue = new Queue<CardData>();
+
             gameManager = GameManager.FindOrCreateInstance();
             events = GameEvents.FindOrCreateInstance();
         }
@@ -50,7 +56,14 @@ namespace SSJ23_Crafting
                 return;
             }
 
-            StartCoroutine(DrawCardRoutine(args.card));
+            if (drawCardRoutine != null)
+            {
+                drawCardQueue.Enqueue(args.card);
+            }
+            else
+            {
+                drawCardRoutine = StartCoroutine(DrawCardRoutine(args.card));
+            }
         }
 
         private void OnCardDiscarded(CardEventArgs args)
@@ -125,6 +138,16 @@ namespace SSJ23_Crafting
             instance.gameObject.SetActive(true);
             instance.Used += OnCardUsed;
             instance.Discarded += OnCardDiscarded;
+
+            if (drawCardQueue.Count > 0)
+            {
+                yield return new WaitForSeconds(0.2f);
+                var nextCard = drawCardQueue.Dequeue();
+                drawCardRoutine = StartCoroutine(DrawCardRoutine(nextCard));
+            } else
+            {
+                drawCardRoutine = null;
+            }
         }
 
         private void OnCardUsed(UICard card)
