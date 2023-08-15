@@ -152,12 +152,18 @@ namespace SSJ23_Crafting
 
         private void OnCardUsed(UICard card)
         {
-            gameManager.UseCard(playerId, card.Card);
+            if (!gameManager.UseCard(playerId, card.Card))
+            {
+                card.RestoreToOrigin();
+            }
         }
 
         private void OnCardDiscarded(UICard card)
         {
-            gameManager.DiscardCard(playerId, card.Card);
+            if (!gameManager.DiscardCard(playerId, card.Card))
+            {
+                card.RestoreToOrigin();
+            }
         }
 
         private IEnumerator MoveAllCardsLeft()
