@@ -33,7 +33,10 @@ namespace SSJ23_Crafting
             }
 
             Clear();
-            cards.AddRange(source.Cards);
+            foreach(var card in source.Cards)
+            {
+                cards.Add(ScriptableObject.Instantiate(card));
+            }
         }
 
         /// <summary>
@@ -43,7 +46,10 @@ namespace SSJ23_Crafting
         {
             SetSource(data);
             Clear();
-            cards.AddRange(data.Cards);
+            foreach(var card in data.Cards)
+            {
+                cards.Add(ScriptableObject.Instantiate(card));
+            }
         }
 
         /// <summary>

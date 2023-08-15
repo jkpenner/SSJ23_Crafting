@@ -8,19 +8,19 @@ namespace SSJ23_Crafting
 
         public void SetCard(UICard card)
         {
-            var rt = GetComponent<RectTransform>();
+            // var rt = GetComponent<RectTransform>();
 
-            var position = RectTransformUtility.WorldToScreenPoint(
-                GetComponentInParent<Canvas>().worldCamera,
-                transform.position
-            );
+            // var position = RectTransformUtility.WorldToScreenPoint(
+            //     GetComponentInParent<Canvas>().worldCamera,
+            //     transform.position
+            // );
 
-            Debug.Log(position);
+            // Debug.Log(position);
             Card = card;
-            Card.transform.SetParent(transform, false);
-            Card.SetOrigin(position);
-            Card.RestoreToOrigin();
-            Card.gameObject.SetActive(true);
+            // Card.transform.SetParent(transform, false);
+            // Card.SetOrigin(position);
+            // Card.RestoreToOrigin();
+            // Card.gameObject.SetActive(true);
         }
 
         public UICard TakeCard()

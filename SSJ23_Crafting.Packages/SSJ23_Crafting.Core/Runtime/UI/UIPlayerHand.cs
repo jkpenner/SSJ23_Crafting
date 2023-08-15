@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace SSJ23_Crafting
@@ -10,9 +11,11 @@ namespace SSJ23_Crafting
         [SerializeField] UIPlayerHandSlot[] slots;
 
         private GameEvents events;
+        private GameManager gameManager;
 
         private void Awake()
         {
+            gameManager = GameManager.FindOrCreateInstance();
             events = GameEvents.FindOrCreateInstance();
         }
 
@@ -37,8 +40,7 @@ namespace SSJ23_Crafting
                 return;
             }
 
-            RemoveCard(args.card);
-            MoveCardsLeft();
+            StartCoroutine(UseCardRoutine(args.card));
         }
 
         private void OnCardDrawn(CardEventArgs args)
@@ -48,12 +50,7 @@ namespace SSJ23_Crafting
                 return;
             }
 
-            cardPrefab.gameObject.SetActive(false);
-            var card = Instantiate(cardPrefab);
-            card.SetCard(args.card);
-
-            MoveCardsLeft();
-            AddNewCard(card);
+            StartCoroutine(DrawCardRoutine(args.card));
         }
 
         private void OnCardDiscarded(CardEventArgs args)
@@ -63,11 +60,84 @@ namespace SSJ23_Crafting
                 return;
             }
 
-            RemoveCard(args.card);
-            MoveCardsLeft();
+            StartCoroutine(DiscardCardRoutine(args.card));
         }
 
-        private void MoveCardsLeft()
+        private IEnumerator UseCardRoutine(CardData card)
+        {
+            Debug.Log("Use Card Routine Started");
+
+            var uiCard = RemoveCard(card);
+            if (uiCard is null)
+            {
+                Debug.Log("Used Card is not found");
+                yield break;
+            }
+
+            // Handle Use Animation for Card
+
+            yield return MoveAllCardsLeft();
+
+            Destroy(uiCard.gameObject);
+        }
+
+        private IEnumerator DiscardCardRoutine(CardData card)
+        {
+            Debug.Log("Discard Card Routine Started");
+
+            var uiCard = RemoveCard(card);
+            if (uiCard is null)
+            {
+                yield break;
+            }
+
+            // Handle Discard Animation for Card
+
+            yield return MoveAllCardsLeft();
+
+            Destroy(uiCard.gameObject);
+        }
+
+        private IEnumerator DrawCardRoutine(CardData card)
+        {
+            yield return MoveAllCardsLeft();
+
+            cardPrefab.gameObject.SetActive(false);
+            var instance = Instantiate(cardPrefab);
+            instance.SetCard(card);
+
+            var uiSlot = GetFirstEmptySlot();
+            if (uiSlot is null)
+            {
+                Debug.LogWarning($"Failed to find open slot on card draw");
+                yield break;
+            }
+
+            uiSlot.SetCard(instance);
+
+            instance.transform.SetParent(uiSlot.transform.parent, false);
+
+            yield return null;
+
+            instance.transform.position = uiSlot.transform.position + Vector3.down * 40f;
+            instance.SetOrigin(uiSlot.transform.position);
+            instance.RestoreToOrigin();
+            instance.gameObject.SetActive(true);
+            instance.Used += OnCardUsed;
+            instance.Discarded += OnCardDiscarded;
+        }
+
+        private void OnCardUsed(UICard card)
+        {
+            gameManager.UseCard(playerId, card.Card);
+        }
+
+        private void OnCardDiscarded(UICard card)
+        {
+            gameManager.DiscardCard(playerId, card.Card);
+        }
+
+        private IEnumerator MoveAllCardsLeft()
         {
             for (int i = 0; i < slots.Length - 1; i++)
             {
@@ -84,6 +154,7 @@ namespace SSJ23_Crafting
                     }
 
                     slots[i].SetCard(slots[j].Card);
+                    slots[i].Card.RestoreToOrigin();
                     slots[j].SetCard(null);
                 }
 
@@ -96,9 +167,10 @@ namespace SSJ23_Crafting
                 // No cards found to fill space exit early
                 break;
             }
+            yield return null;
         }
 
-        private void AddNewCard(UICard card)
+        private UIPlayerHandSlot GetFirstEmptySlot()
         {
             for (int i = 0; i < slots.Length; i++)
             {
@@ -107,23 +179,27 @@ namespace SSJ23_Crafting
                     continue;
                 }
 
-                slots[i].SetCard(card);
+                return slots[i];
             }
+
+            return null;
         }
 
-        private void RemoveCard(CardData card)
+        private UICard RemoveCard(CardData card)
         {
             for (int i = 0; i < slots.Length; i++)
             {
-                if (slots[i].Card != card)
+                if (slots[i].Card is null || slots[i].Card.Card != card)
                 {
                     continue;
                 }
 
                 var uiCard = slots[i].Card;
                 slots[i].SetCard(null);
-                Destroy(uiCard.gameObject);
+                return uiCard;
             }
+
+            return null;
         }
     }
 }

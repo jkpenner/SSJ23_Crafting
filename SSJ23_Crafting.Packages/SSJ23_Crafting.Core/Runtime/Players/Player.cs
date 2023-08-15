@@ -51,11 +51,11 @@ namespace SSJ23_Crafting
             return true;
         }
 
-        public void UseCard(CardData card)
+        public bool UseCard(CardData card)
         {
             if (!IsCardUsable(card) || !Hand.RemoveCard(card))
             {
-                return;
+                return false;
             }
 
             // Card is usable and was in hand
@@ -67,13 +67,14 @@ namespace SSJ23_Crafting
             });
 
             FillHand();
+            return true;
         }
 
-        public void DiscardCard(CardData card)
+        public bool DiscardCard(CardData card)
         {
             if (!Hand.RemoveCard(card))
             {
-                return;
+                return false;
             }
 
             events.CardDiscarded.Emit(new CardEventArgs
@@ -83,6 +84,7 @@ namespace SSJ23_Crafting
             });
 
             FillHand();
+            return true;
         }
 
         public void Enable()
@@ -153,6 +155,11 @@ namespace SSJ23_Crafting
                     break;
                 }
             }
+        }
+
+        public bool LaunchRobot()
+        {
+            return false;
         }
     }
 }

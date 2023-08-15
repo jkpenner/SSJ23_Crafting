@@ -6,12 +6,13 @@ namespace SSJ23_Crafting
 {
     public class UILaunchPressed : MonoBehaviour
     {
+        [SerializeField] PlayerId playerId;
         [SerializeField] Button button;
-        private GameEvents events;
+        private GameManager gameManager;
 
         private void OnEnable()
         {
-            events = GameEvents.FindOrCreateInstance();
+            gameManager = GameManager.FindOrCreateInstance();
 
             if (button != null)
             {
@@ -30,12 +31,12 @@ namespace SSJ23_Crafting
                 button.onClick.RemoveListener(OnClicked);
             }
 
-            events = null;
+            gameManager = null;
         }
 
         private void OnClicked()
         {
-            events.UILaunchPressed.Emit();
+            gameManager.LaunchRobot(playerId);
         }
     }
 }

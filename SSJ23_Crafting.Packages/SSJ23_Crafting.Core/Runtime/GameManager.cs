@@ -10,7 +10,7 @@ namespace SSJ23_Crafting
         Complete,
     }
 
-    public class GameManager : MonoBehaviour
+    public class GameManager : Singleton<GameManager>
     {
         [SerializeField] CardDeckData playerOneDeckData;
         [SerializeField] CardDeckData playerTwoDeckData;
@@ -22,17 +22,21 @@ namespace SSJ23_Crafting
         private GameEvents events;
 
 
-        private void Awake()
+        public override void Awake()
         {
+            base.Awake();
+
             events = GameEvents.FindOrCreateInstance();
 
             PlayerOne = new Player(PlayerId.One, new UserInputController());
             PlayerOne.Deck.SetSource(playerOneDeckData);
             PlayerOne.Deck.Populate();
+            PlayerOne.Deck.Shuffle();
 
             PlayerTwo = new Player(PlayerId.Two, new ComputerController());
             PlayerTwo.Deck.SetSource(playerTwoDeckData);
             PlayerTwo.Deck.Populate();
+            PlayerTwo.Deck.Shuffle();
         }
 
         private IEnumerator Start()
@@ -44,8 +48,12 @@ namespace SSJ23_Crafting
             {
                 if (PlayerOne.Deck.IsEmpty)
                 {
-                    Debug.Log("Can not draw more cards. Deck is empty");
-                    break;
+                    // Temp: When deck is empty re populate and shuffle
+                    // Debug.Log("Can not draw more cards. Deck is empty");
+                    // break;
+
+                    PlayerOne.Deck.Populate();
+                    PlayerOne.Deck.Shuffle();
                 }
 
                 if (PlayerOne.Deck.TryDraw(out var card))
@@ -68,8 +76,14 @@ namespace SSJ23_Crafting
             }
 
             Debug.Log("Drawing Enemy Hand");
-            while (PlayerTwo.Hand.CardCount < GameSettings.MaxHandSize && !PlayerTwo.Deck.IsEmpty)
+            while (PlayerTwo.Hand.CardCount < GameSettings.MaxHandSize)
             {
+                if (PlayerTwo.Deck.IsEmpty)
+                {
+                    PlayerTwo.Deck.Populate();
+                    PlayerTwo.Deck.Shuffle();
+                }
+
                 if (PlayerTwo.Deck.TryDraw(out var card))
                 {
                     PlayerTwo.Hand.AddCard(card);
@@ -81,11 +95,11 @@ namespace SSJ23_Crafting
                 }
             }
 
-            for (int i = 3; i > 0; i--)
-            {
-                Debug.Log($"Count Down: {i}");
-                yield return new WaitForSeconds(1.0f);
-            }
+            // for (int i = 3; i > 0; i--)
+            // {
+            //     Debug.Log($"Count Down: {i}");
+            //     yield return new WaitForSeconds(1.0f);
+            // }
 
             Debug.Log("Game Started");
             SetGameState(GameState.Active);
@@ -123,6 +137,42 @@ namespace SSJ23_Crafting
                         PlayerTwo.Disable();
                         break;
                 }
+            }
+        }
+
+        public bool LaunchRobot(PlayerId playerId)
+        {
+            if (playerId == PlayerId.One)
+            {
+                return PlayerOne.LaunchRobot();
+            }
+            else
+            {
+                return PlayerTwo.LaunchRobot();
+            }
+        }
+
+        public bool UseCard(PlayerId playerId, CardData card)
+        {
+            if (playerId == PlayerId.One)
+            {
+                return PlayerOne.UseCard(card);
+            }
+            else
+            {
+                return PlayerTwo.UseCard(card);
+            }
+        }
+
+        public bool DiscardCard(PlayerId playerId, CardData card)
+        {
+            if (playerId == PlayerId.One)
+            {
+                return PlayerOne.DiscardCard(card);
+            }
+            else
+            {
+                return PlayerTwo.DiscardCard(card);
             }
         }
     }
