@@ -15,6 +15,9 @@ namespace SSJ23_Crafting
         [SerializeField] CardDeckData playerOneDeckData;
         [SerializeField] CardDeckData playerTwoDeckData;
 
+        [SerializeField] Transform playerOneRobotParent;
+        [SerializeField] Transform playerTwoRobotParent;
+
         public GameState State { get; private set; }
         public Player PlayerOne { get; private set; }
         public Player PlayerTwo { get; private set; }
@@ -126,6 +129,18 @@ namespace SSJ23_Crafting
             else
             {
                 return PlayerTwo.DiscardCard(card);
+            }
+        }
+
+        public Transform GetRobotParent(PlayerId playerId)
+        {
+            if (playerId == PlayerId.One)
+            {
+                return playerOneRobotParent;
+            }
+            else
+            {
+                return playerTwoRobotParent;
             }
         }
     }

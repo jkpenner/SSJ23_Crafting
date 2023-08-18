@@ -19,9 +19,11 @@ namespace SSJ23_Crafting
 
         public CardDeck Deck { get; private set; }
         public CardHand Hand { get; private set; }
+        public Robot Robot { get; private set; }
 
         public PlayerController Controller { get; private set; }
 
+        private GameManager gameManager;
         private GameEvents events;
 
         public event Action<CardData> CardDrawn;
@@ -38,6 +40,7 @@ namespace SSJ23_Crafting
             Resource = 0;
             Score = 0;
 
+            gameManager = GameManager.FindOrCreateInstance();
             events = GameEvents.FindOrCreateInstance();
         }
 
@@ -66,6 +69,8 @@ namespace SSJ23_Crafting
                 card = card
             });
 
+            card.OnUse(this);
+
             FillHand();
             return true;
         }
@@ -82,6 +87,8 @@ namespace SSJ23_Crafting
                 playerId = Id,
                 card = card
             });
+
+            card.OnDiscard(this);
 
             FillHand();
             return true;
@@ -166,6 +173,35 @@ namespace SSJ23_Crafting
         public bool LaunchRobot()
         {
             return false;
+        }
+
+        public void ChangeRobot(Robot robotPrefab)
+        {
+            EjectRobot();
+
+            robotPrefab.gameObject.SetActive(false);
+            var instance = GameObject.Instantiate(robotPrefab);
+            
+            var parent = gameManager.GetRobotParent(Id);
+            if (parent != null)
+            {
+                instance.transform.position = parent.transform.position;
+                instance.transform.rotation = parent.transform.rotation;
+            }
+
+            Robot = instance;
+            instance.gameObject.SetActive(true);
+        }
+
+        public void EjectRobot()
+        {
+            if (Robot == null)
+            {
+                return;
+            }
+
+            // Future Eject robot code here
+            GameObject.Destroy(Robot.gameObject);
         }
     }
 }
