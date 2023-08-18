@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e8664ce8483a2e4ea806d5479bb4a5b, type: 3}
+  m_Name: Square
+  m_EditorClassIdentifier: 
+  displayName: Square
+  resourceCost: 2
+  robotPrefab: {fileID: 336002209166827066, guid: a85456e5a7b61ff4a8890e445efb8bcf,
+    type: 3}
