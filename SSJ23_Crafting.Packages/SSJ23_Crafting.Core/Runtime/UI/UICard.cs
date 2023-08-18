@@ -27,6 +27,12 @@ namespace SSJ23_Crafting
         [SerializeField] InputActionAsset inputs;
         [SerializeField] float releaseRange = 50f;
 
+
+        [Header("UI Elements")]
+        [SerializeField] TMPro.TMP_Text nameText;
+        [SerializeField] TMPro.TMP_Text typeText;
+        [SerializeField] TMPro.TMP_Text costText;
+
         private new Camera camera;
         private GameEvents events;
         private DragState state;
@@ -217,6 +223,20 @@ namespace SSJ23_Crafting
         public void SetCard(CardData card)
         {
             Card = card;
+            if (Card != null)
+            {
+                nameText.text = Card.DisplayName;
+                costText.text = Card.ResourceCost.ToString();
+                typeText.text = Card.CardType switch
+                {
+                    CardType.Shaper => "Shaper",
+                    CardType.Mover => "Mover",
+                    CardType.Damager => "Damager",
+                    CardType.Defender => "Defender",
+                    CardType.Ejector => "Ejector",
+                    _ => "Unknown"
+                };
+            }
         }
 
         public void SetOrigin(Vector3 origin)
