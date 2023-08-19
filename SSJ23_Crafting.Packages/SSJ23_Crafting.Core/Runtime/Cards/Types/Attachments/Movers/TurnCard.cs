@@ -18,6 +18,11 @@ namespace SSJ23_Crafting
 
         public override void OnCardUpdate(Robot robot, AttachmentPoint point)
         {
+            if (!robot.IsGrounded && onlyWhileGrounded)
+            {
+                return;
+            }
+
             var dir = direction == TurnDirection.Left ? -1f : 1f;
             robot.transform.Rotate(robot.transform.up * speed * dir * Time.deltaTime);
         }
