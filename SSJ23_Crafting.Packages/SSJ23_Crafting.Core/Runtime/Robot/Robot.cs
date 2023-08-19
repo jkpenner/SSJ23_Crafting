@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace SSJ23_Crafting
@@ -15,15 +16,24 @@ namespace SSJ23_Crafting
     {
         [SerializeField] AttachmentPoint[] attachmentPoints;
         [SerializeField] float launchDuration = 1f;
+        [SerializeField] LayerMask groundMask;
 
         public PlayerId PlayerId { get; private set; }
         public RobotState State { get; private set; }
         public Rigidbody Rigidbody { get; private set; }
 
+        public bool IsGrounded { get; private set; }
+
         private Vector3 launchStart;
         private Vector3 launchMiddle;
         private Vector3 launchTarget;
         private float launchPercent;
+
+
+
+        public event Action LandedOnGround;
+        public event Action<Robot> LandedOnRobot;
+        public event Action<Robot> ImpactedRobot;
 
 
         private void Awake()
@@ -62,14 +72,16 @@ namespace SSJ23_Crafting
             {
                 if (Vector3.Dot(Vector3.up, collision.GetContact(0).normal) > 0.65f)
                 {
-                    // Debug.Log("Hit the top of another robot");
+                    Debug.Log("Hit the top of another robot");
                     // Destroy(robot.gameObject);
+                    LandedOnRobot?.Invoke(robot);
                 }
                 else
                 {
-                    // Debug.Log("Hit side of anothe robot");
+                    Debug.Log("Hit side of another robot");
                     var newForward = Vector3.Reflect(transform.forward, collision.GetContact(0).normal);
                     transform.rotation = Quaternion.LookRotation(newForward, Vector3.up);
+                    ImpactedRobot?.Invoke(robot);
                 }
             }
         }
@@ -119,25 +131,33 @@ namespace SSJ23_Crafting
         {
             switch (State)
             {
-                // case RobotState.Launch:
-                //     UpdateLaunchState();
-                //     break;
+                case RobotState.Launch:
+                    UpdateLaunchState();
+                    break;
                 case RobotState.Battle:
                     UpdateBattleState();
                     break;
             }
+
+            SetGrounded(
+                Physics.Raycast(
+                    transform.position + Vector3.up,
+                    Vector3.down,
+                    1.1f,
+                    groundMask
+                )
+            );
         }
 
-        private void FixedUpdate()
+        private void SetGrounded(bool isGrounded)
         {
-            switch (State)
+            if (IsGrounded != isGrounded)
             {
-                case RobotState.Launch:
-                    UpdateLaunchState();
-                    break;
-                    // case RobotState.Battle:
-                    //     UpdateBattleState();
-                    //     break;
+                IsGrounded = isGrounded;
+                if (IsGrounded)
+                {
+                    LandedOnGround?.Invoke();
+                }
             }
         }
 
