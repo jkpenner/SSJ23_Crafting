@@ -15,7 +15,7 @@ namespace SSJ23_Crafting
 
         public override AttachmentType AttachmentType => AttachmentType.MoverJump;
 
-        public override void OnUpdate(Robot robot, AttachmentPoint point)
+        public override void OnCardUpdate(Robot robot, AttachmentPoint point)
         {
             counter += Time.deltaTime;
             if (isJumping)
@@ -25,11 +25,11 @@ namespace SSJ23_Crafting
                 var a = Mathf.Lerp(startHeight, startHeight + height, t);
                 var b = Mathf.Lerp(startHeight + height, startHeight, t);
                 
-                robot.transform.position = new Vector3(
+                robot.Rigidbody.MovePosition(new Vector3(
                     robot.transform.position.x,
                     Mathf.Lerp(a, b, t),
                     robot.transform.position.z
-                );
+                ));
 
                 if (counter >= duration)
                 {

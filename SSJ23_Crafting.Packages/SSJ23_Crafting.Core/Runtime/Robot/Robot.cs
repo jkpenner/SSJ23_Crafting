@@ -10,6 +10,7 @@ namespace SSJ23_Crafting
         Dead,
     }
 
+    [RequireComponent(typeof(Rigidbody))]
     public class Robot : MonoBehaviour
     {
         [SerializeField] AttachmentPoint[] attachmentPoints;
@@ -17,11 +18,61 @@ namespace SSJ23_Crafting
 
         public PlayerId PlayerId { get; private set; }
         public RobotState State { get; private set; }
+        public Rigidbody Rigidbody { get; private set; }
 
         private Vector3 launchStart;
         private Vector3 launchMiddle;
         private Vector3 launchTarget;
         private float launchPercent;
+
+
+        private void Awake()
+        {
+            Rigidbody = GetComponent<Rigidbody>();
+            Disable();
+        }
+
+        public void Enable()
+        {
+            Rigidbody.useGravity = true;
+            Rigidbody.isKinematic = false;
+            Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+        }
+
+        public void Disable()
+        {
+            Rigidbody.useGravity = false;
+            Rigidbody.isKinematic = true;
+            Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        }
+
+        public void OnCollisionEnter(Collision collision)
+        {
+            Debug.Log($"{this.name} collided with {collision.collider.name}");
+
+            if (collision.collider.CompareTag("Wall"))
+            {
+                var newForward = Vector3.Reflect(transform.forward, collision.GetContact(0).normal);
+                transform.rotation = Quaternion.LookRotation(newForward, Vector3.up);
+                return;
+            }
+
+            var robot = collision.collider.GetComponentInParent<Robot>();
+            if (robot != null)
+            {
+                if (Vector3.Dot(Vector3.up, collision.GetContact(0).normal) > 0.65f)
+                {
+                    // Debug.Log("Hit the top of another robot");
+                    // Destroy(robot.gameObject);
+                }
+                else
+                {
+                    // Debug.Log("Hit side of anothe robot");
+                    var newForward = Vector3.Reflect(transform.forward, collision.GetContact(0).normal);
+                    transform.rotation = Quaternion.LookRotation(newForward, Vector3.up);
+                }
+            }
+        }
 
         public bool IsValidAttachment(AttachmentType attachmentType)
         {
@@ -66,29 +117,53 @@ namespace SSJ23_Crafting
 
         private void Update()
         {
-            if (State == RobotState.Launch)
+            switch (State)
             {
-                launchPercent += 1f / GameSettings.LaunchDuration * Time.deltaTime;
-                if (launchPercent >= 1f)
-                {
-                    launchPercent = 1f;
-                }
-
-                var a = Vector3.Lerp(launchStart, launchMiddle, launchPercent);
-                var b = Vector3.Lerp(launchMiddle, launchTarget, launchPercent);
-                transform.position = Vector3.Lerp(a, b, launchPercent);
-
-                if (launchPercent >= 1f)
-                {
-                    SetState(RobotState.Battle);
-                }
+                // case RobotState.Launch:
+                //     UpdateLaunchState();
+                //     break;
+                case RobotState.Battle:
+                    UpdateBattleState();
+                    break;
             }
-            else if (State == RobotState.Battle)
+        }
+
+        private void FixedUpdate()
+        {
+            switch (State)
             {
-                foreach (var attachmentPoint in attachmentPoints)
-                {
-                    attachmentPoint.Update(this);
-                }
+                case RobotState.Launch:
+                    UpdateLaunchState();
+                    break;
+                    // case RobotState.Battle:
+                    //     UpdateBattleState();
+                    //     break;
+            }
+        }
+
+        private void UpdateLaunchState()
+        {
+            launchPercent += 1f / GameSettings.LaunchDuration * Time.deltaTime;
+            if (launchPercent >= 1f)
+            {
+                launchPercent = 1f;
+            }
+
+            var a = Vector3.Lerp(launchStart, launchMiddle, launchPercent);
+            var b = Vector3.Lerp(launchMiddle, launchTarget, launchPercent);
+            Rigidbody.MovePosition(Vector3.Lerp(a, b, launchPercent));
+
+            if (launchPercent >= 1f)
+            {
+                SetState(RobotState.Battle);
+            }
+        }
+
+        private void UpdateBattleState()
+        {
+            foreach (var attachmentPoint in attachmentPoints)
+            {
+                attachmentPoint.UpdateAttachment(this);
             }
         }
 
@@ -96,29 +171,40 @@ namespace SSJ23_Crafting
         {
             if (State != state)
             {
-                // Leaving a state
-                switch (State)
-                {
-                    case RobotState.Battle:
-                        foreach (var attachmentPoint in attachmentPoints)
-                        {
-                            attachmentPoint.Disable(this);
-                        }
-                        break;
-                }
-
+                OnStateExit(State);
                 State = state;
+                OnStateEnter(State);
+            }
+        }
 
-                // Entering a state
-                switch (State)
-                {
-                    case RobotState.Battle:
-                        foreach (var attachmentPoint in attachmentPoints)
-                        {
-                            attachmentPoint.Enable(this);
-                        }
-                        break;
-                }
+        private void OnStateExit(RobotState state)
+        {
+            switch (State)
+            {
+                case RobotState.Battle:
+                    foreach (var attachmentPoint in attachmentPoints)
+                    {
+                        attachmentPoint.Disable(this);
+                    }
+                    break;
+            }
+        }
+
+        private void OnStateEnter(RobotState state)
+        {
+            switch (State)
+            {
+                case RobotState.Launch:
+                    Disable();
+                    Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+                    break;
+                case RobotState.Battle:
+                    Enable();
+                    foreach (var attachmentPoint in attachmentPoints)
+                    {
+                        attachmentPoint.Enable(this);
+                    }
+                    break;
             }
         }
     }

@@ -14,9 +14,9 @@ namespace SSJ23_Crafting
             return player.Robot.IsValidAttachment(AttachmentType);
         }
 
-        public override void OnUse(Player player)
+        public override void OnCardUse(Player player)
         {
-            base.OnUse(player);
+            base.OnCardUse(player);
             if (player.Robot != null)
             {
                 player.Robot.Attach(this);
@@ -26,26 +26,26 @@ namespace SSJ23_Crafting
         /// <summary>
         /// Invoked when the Attachment Card is attached to a Robot.
         /// </summary>
-        public virtual void OnAttach(Robot robot, AttachmentPoint point) {}
+        public virtual void OnCardAttach(Robot robot, AttachmentPoint point) {}
 
         /// <summary>
         /// Invoked each frame the robot is active.
         /// </summary>
-        public virtual void OnUpdate(Robot robot, AttachmentPoint point) {}
+        public virtual void OnCardUpdate(Robot robot, AttachmentPoint point) {}
 
         /// <summary>
         /// Invoked when the Attachment Card is detached from a robot.
         /// </summary>
-        public virtual void OnDetach(Robot robot, AttachmentPoint point) {}
+        public virtual void OnCardDetach(Robot robot, AttachmentPoint point) {}
 
         /// <summary>
         /// Invoked when robot is enabled during battle.
         /// </summary>
-        public virtual void OnEnable(Robot robot, AttachmentPoint point) {}
+        public virtual void OnCardEnable(Robot robot, AttachmentPoint point) {}
 
         /// <summary>
         /// Invoked when robot is disabled after battle.
         /// </summary>
-        public virtual void OnDisable(Robot robot, AttachmentPoint point) {}
+        public virtual void OnCardDisable(Robot robot, AttachmentPoint point) {}
     }
 }

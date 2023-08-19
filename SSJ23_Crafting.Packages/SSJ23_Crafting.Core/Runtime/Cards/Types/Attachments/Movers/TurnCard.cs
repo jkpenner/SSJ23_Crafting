@@ -16,7 +16,7 @@ namespace SSJ23_Crafting
 
         public override AttachmentType AttachmentType => AttachmentType.MoverTurn;
 
-        public override void OnUpdate(Robot robot, AttachmentPoint point)
+        public override void OnCardUpdate(Robot robot, AttachmentPoint point)
         {
             var dir = direction == TurnDirection.Left ? -1f : 1f;
             robot.transform.Rotate(robot.transform.up * speed * dir * Time.deltaTime);

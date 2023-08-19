@@ -36,7 +36,7 @@ namespace SSJ23_Crafting
             }
 
             AttachmentData = data;
-            AttachmentData.OnAttach(robot, this);
+            AttachmentData.OnCardAttach(robot, this);
         }
 
         public void Detach(Robot robot)
@@ -46,7 +46,7 @@ namespace SSJ23_Crafting
                 return;
             }
 
-            AttachmentData.OnDetach(robot, this);
+            AttachmentData.OnCardDetach(robot, this);
             AttachmentData = null;
         }
 
@@ -54,7 +54,7 @@ namespace SSJ23_Crafting
         {
             if (AttachmentData != null)
             {
-                AttachmentData.OnEnable(robot, this);
+                AttachmentData.OnCardEnable(robot, this);
             }
         }
 
@@ -62,15 +62,15 @@ namespace SSJ23_Crafting
         {
             if (AttachmentData != null)
             {
-                AttachmentData.OnDisable(robot, this);
+                AttachmentData.OnCardDisable(robot, this);
             }
         }
 
-        public void Update(Robot robot)
+        public void UpdateAttachment(Robot robot)
         {
             if (AttachmentData != null)
             {
-                AttachmentData.OnUpdate(robot, this);
+                AttachmentData.OnCardUpdate(robot, this);
             }
         }
     }

@@ -9,9 +9,10 @@ namespace SSJ23_Crafting
 
         public override AttachmentType AttachmentType => AttachmentType.MoverMove;
 
-        public override void OnUpdate(Robot robot, AttachmentPoint point)
+        public override void OnCardUpdate(Robot robot, AttachmentPoint point)
         {
-            robot.transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.Self);
+            var movement = robot.transform.forward * speed * Time.deltaTime;
+            robot.Rigidbody.MovePosition(robot.transform.position + movement);
         }
     }
 }

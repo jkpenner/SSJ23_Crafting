@@ -11,7 +11,6 @@ namespace SSJ23_Crafting
         public string DisplayName => displayName;
         public int ResourceCost => resourceCost;
 
-
         public virtual bool IsUsable(Player player) {
             if (player.Resource < resourceCost)
             {
@@ -21,7 +20,7 @@ namespace SSJ23_Crafting
             return true;
         }
 
-        public virtual void OnUse(Player player) {}
-        public virtual void OnDiscard(Player player) {}
+        public virtual void OnCardUse(Player player) {}
+        public virtual void OnCardDiscard(Player player) {}
     }
 }

@@ -10,9 +10,9 @@ namespace SSJ23_Crafting
         public override CardType CardType => CardType.Shaper;
         public Robot RobotPrefab => robotPrefab;
 
-        public override void OnUse(Player player)
+        public override void OnCardUse(Player player)
         {
-            base.OnUse(player);
+            base.OnCardUse(player);
             player.ChangeRobot(robotPrefab);
         }
     }

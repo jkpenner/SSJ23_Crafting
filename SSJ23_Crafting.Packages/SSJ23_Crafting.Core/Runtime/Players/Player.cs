@@ -69,7 +69,7 @@ namespace SSJ23_Crafting
                 card = card
             });
 
-            card.OnUse(this);
+            card.OnCardUse(this);
 
             FillHand();
             return true;
@@ -88,7 +88,7 @@ namespace SSJ23_Crafting
                 card = card
             });
 
-            card.OnDiscard(this);
+            card.OnCardDiscard(this);
 
             FillHand();
             return true;
