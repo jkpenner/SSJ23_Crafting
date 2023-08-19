@@ -8,5 +8,7 @@ namespace SSJ23_Crafting
         public static int MaxHandSize = 6;
 
         public static bool RepopulateEmptyDeck = true;
+        public static float LaunchDistance = 7f;
+        public static float LaunchDuration = 0.5f;
     }
 }

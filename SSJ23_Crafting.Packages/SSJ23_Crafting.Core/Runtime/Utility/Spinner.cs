@@ -13,6 +13,5 @@ namespace SSJ23_Crafting
         {
             transform.Rotate(axis * speed * Time.deltaTime, space);
         }
-
     }
 }

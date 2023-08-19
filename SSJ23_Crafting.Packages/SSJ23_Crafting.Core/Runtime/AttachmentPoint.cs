@@ -21,14 +21,57 @@ namespace SSJ23_Crafting
         public AttachmentType AttachmentType => attachmentType;
         public AttachmentCard AttachmentData { get; private set; }
 
-        public void Attach(AttachmentCard data)
+        public bool HasAttachment => AttachmentData != null;
+
+        public void Attach(Robot robot, AttachmentCard data)
         {
+            if (data is null)
+            {
+                throw new System.NullReferenceException("Can not attach null Attachment. Use Eject to remove.");
+            }
 
-        } 
+            if (HasAttachment)
+            {
+                Detach(robot);
+            }
 
-        public void Eject()
+            AttachmentData = data;
+            AttachmentData.OnAttach(robot, this);
+        }
+
+        public void Detach(Robot robot)
         {
+            if (!HasAttachment)
+            {
+                return;
+            }
 
+            AttachmentData.OnDetach(robot, this);
+            AttachmentData = null;
+        }
+
+        public void Enable(Robot robot)
+        {
+            if (AttachmentData != null)
+            {
+                AttachmentData.OnEnable(robot, this);
+            }
+        }
+
+        public void Disable(Robot robot)
+        {
+            if (AttachmentData != null)
+            {
+                AttachmentData.OnDisable(robot, this);
+            }
+        }
+
+        public void Update(Robot robot)
+        {
+            if (AttachmentData != null)
+            {
+                AttachmentData.OnUpdate(robot, this);
+            }
         }
     }
 }

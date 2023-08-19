@@ -115,6 +115,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8857627406049095280}
   - component: {fileID: 8491478448663768501}
+  - component: {fileID: 9086561741070212517}
+  - component: {fileID: 5095625093573061411}
+  - component: {fileID: 1092593442530088134}
   m_Layer: 0
   m_Name: CircleRobot
   m_TagString: Untagged
@@ -150,4 +153,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d41502ee2956764ab3189aa17e55a88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attachmentPoints: []
+  attachmentPoints:
+  - {fileID: 9086561741070212517}
+  - {fileID: 5095625093573061411}
+  - {fileID: 1092593442530088134}
+  launchDuration: 1
+--- !u!114 &9086561741070212517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8421456058059033340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aaccd524f6b5df48bffe66c6c07761e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attachmentType: 8
+--- !u!114 &5095625093573061411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8421456058059033340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aaccd524f6b5df48bffe66c6c07761e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attachmentType: 16
+--- !u!114 &1092593442530088134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8421456058059033340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aaccd524f6b5df48bffe66c6c07761e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attachmentType: 32
