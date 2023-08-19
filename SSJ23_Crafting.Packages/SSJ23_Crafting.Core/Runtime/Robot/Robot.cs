@@ -14,6 +14,7 @@ namespace SSJ23_Crafting
     [RequireComponent(typeof(Rigidbody))]
     public class Robot : MonoBehaviour
     {
+        [SerializeField] int health = 1;
         [SerializeField] AttachmentPoint[] attachmentPoints;
         [SerializeField] float launchDuration = 1f;
         [SerializeField] LayerMask groundMask;
@@ -22,6 +23,7 @@ namespace SSJ23_Crafting
         public RobotState State { get; private set; }
         public Rigidbody Rigidbody { get; private set; }
 
+        public int Health => health;
         public bool IsGrounded { get; private set; }
 
         private Vector3 launchStart;
@@ -34,6 +36,10 @@ namespace SSJ23_Crafting
         public event Action LandedOnGround;
         public event Action<Robot> LandedOnRobot;
         public event Action<Robot> ImpactedRobot;
+
+        public delegate void DamageEvent(Robot source, int damage);
+        public event DamageEvent Damaged;
+        public event DamageEvent Destroyed;
 
 
         private void Awake()
@@ -161,6 +167,26 @@ namespace SSJ23_Crafting
             }
         }
 
+        public void Damage(Robot source, int damage)
+        {
+            if (health <= 0 || damage <= 0)
+            {
+                return;
+            }
+
+            var clampedDamage = Mathf.Clamp(damage, 0, health);
+            health -= clampedDamage;
+
+            Damaged?.Invoke(source, clampedDamage);
+
+            if (health <= 0)
+            {
+                health = 0;
+                Destroyed?.Invoke(source, clampedDamage);
+                SetState(RobotState.Dead);
+            }
+        }
+
         private void UpdateLaunchState()
         {
             launchPercent += 1f / GameSettings.LaunchDuration * Time.deltaTime;
@@ -224,6 +250,9 @@ namespace SSJ23_Crafting
                     {
                         attachmentPoint.Enable(this);
                     }
+                    break;
+                case RobotState.Dead:
+                    Destroy(this.gameObject);
                     break;
             }
         }
