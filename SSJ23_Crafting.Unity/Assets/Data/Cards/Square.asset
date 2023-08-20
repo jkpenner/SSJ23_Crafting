@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e8664ce8483a2e4ea806d5479bb4a5b, type: 3}
   m_Name: Square
   m_EditorClassIdentifier: 
+  visualPrefab: {fileID: 919132149155446097, guid: 7195058c40b752442b8583bf54526adf,
+    type: 3}
   displayName: Square
   resourceCost: 2
   robotPrefab: {fileID: 336002209166827066, guid: a85456e5a7b61ff4a8890e445efb8bcf,

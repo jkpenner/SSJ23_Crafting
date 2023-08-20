@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e8664ce8483a2e4ea806d5479bb4a5b, type: 3}
   m_Name: Circle
   m_EditorClassIdentifier: 
+  visualPrefab: {fileID: 919132149155446097, guid: d55a1911c037ddf42927881515b86098,
+    type: 3}
   displayName: Circle
   resourceCost: 2
   robotPrefab: {fileID: 8491478448663768501, guid: 2427e706d39edf74dbbfc7abb2995318,

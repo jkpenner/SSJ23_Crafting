@@ -32,6 +32,7 @@ namespace SSJ23_Crafting
         [SerializeField] TMPro.TMP_Text nameText;
         [SerializeField] TMPro.TMP_Text typeText;
         [SerializeField] TMPro.TMP_Text costText;
+        [SerializeField] Transform visualParent;
 
         private new Camera camera;
         private GameEvents events;
@@ -236,6 +237,21 @@ namespace SSJ23_Crafting
                     CardType.Ejector => "Ejector",
                     _ => "Unknown"
                 };
+
+                if (visualParent != null && Card.VisualPrefab != null)
+                {
+                    for(int i = 0; i < visualParent.childCount; i++)
+                    {
+                        Destroy(visualParent.GetChild(i).gameObject);
+                    }
+                    var instance = GameObject.Instantiate(Card.VisualPrefab);
+                    instance.transform.SetParent(visualParent, true);
+                    instance.transform.localPosition = Vector3.zero;
+                    instance.transform.localRotation = Quaternion.identity;
+                    instance.transform.localScale = Vector3.one;
+                    instance.layer = LayerMask.NameToLayer("UI");
+                }
+
             }
         }
 
