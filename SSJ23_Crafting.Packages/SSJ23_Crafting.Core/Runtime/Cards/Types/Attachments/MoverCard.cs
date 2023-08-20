@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace SSJ23_Crafting
 {
     public abstract class MoverCard : AttachmentCard

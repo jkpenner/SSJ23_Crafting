@@ -17,14 +17,20 @@ namespace SSJ23_Crafting
 
         public override void OnCardUpdate(Robot robot, AttachmentPoint point)
         {
+            if (robot.IsActionLocked && robot.ActionLockOwner != this)
+            {
+                return;
+            }
+
             counter += Time.deltaTime;
+
             if (isJumping)
             {
                 var t = Mathf.Clamp01(counter / duration);
 
                 var a = Mathf.Lerp(startHeight, startHeight + height, t);
                 var b = Mathf.Lerp(startHeight + height, startHeight, t);
-                
+
                 robot.Rigidbody.MovePosition(new Vector3(
                     robot.transform.position.x,
                     Mathf.Lerp(a, b, t),
@@ -35,16 +41,14 @@ namespace SSJ23_Crafting
                 {
                     isJumping = false;
                     counter = 0f;
+                    robot.ReleaseActionLock(this);
                 }
             }
-            else
+            else if (counter >= interval && robot.SetActionLock(this))
             {
-                if (counter >= interval)
-                {
-                    startHeight = robot.transform.position.y;
-                    isJumping = true;
-                    counter = 0f;
-                }
+                startHeight = robot.transform.position.y;
+                isJumping = true;
+                counter = 0f;
             }
         }
     }

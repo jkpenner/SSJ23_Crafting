@@ -41,6 +41,9 @@ namespace SSJ23_Crafting
         public event DamageEvent Damaged;
         public event DamageEvent Destroyed;
 
+        public bool IsActionLocked { get; private set; }
+        public CardData ActionLockOwner { get; private set; }
+
 
         private void Awake()
         {
@@ -60,6 +63,28 @@ namespace SSJ23_Crafting
             Rigidbody.useGravity = false;
             Rigidbody.isKinematic = true;
             Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        }
+
+        public bool SetActionLock(CardData obj)
+        {
+            if (IsActionLocked)
+            {
+                return false;
+            }
+
+            ActionLockOwner = obj;
+            return true;
+        }
+
+        public void ReleaseActionLock(CardData card)
+        {
+            if (!IsActionLocked || card != ActionLockOwner)
+            {
+                return;
+            }
+
+            IsActionLocked = false;
+            ActionLockOwner = null;
         }
 
         public void OnCollisionEnter(Collision collision)

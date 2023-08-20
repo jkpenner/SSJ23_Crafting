@@ -11,6 +11,11 @@ namespace SSJ23_Crafting
 
         public override void OnCardUpdate(Robot robot, AttachmentPoint point)
         {
+            if (robot.IsActionLocked)
+            {
+                return;
+            }
+
             var movement = robot.transform.forward * speed * Time.deltaTime;
             robot.Rigidbody.MovePosition(robot.transform.position + movement);
         }
