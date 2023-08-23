@@ -147,13 +147,14 @@ GameObject:
   - component: {fileID: 9133342096323005493}
   - component: {fileID: 3175798299263536402}
   - component: {fileID: 1629559085442142581}
+  - component: {fileID: 1295215203577420710}
   m_Layer: 5
   m_Name: UICard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &740504319280968377
 RectTransform:
   m_ObjectHideFlags: 0
@@ -226,8 +227,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d294326a4651bf64693b118320baec99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputs: {fileID: -944628639613478452, guid: 59dd2b40689f16849b77b1e6f7303b43, type: 3}
-  releaseRange: 50
   nameText: {fileID: 7908322056770349242}
   typeText: {fileID: 77436600829785266}
   costText: {fileID: 1992804363282222500}
@@ -252,6 +251,22 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &1295215203577420710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3876396667099352515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75444c04b408f934b9d6195aefdf4a0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dragAngle: 0
+  activateDistance: 1
+  maxDragDistance: 0
+  restoreRate: 0.25
 --- !u!1 &5602742294890809211
 GameObject:
   m_ObjectHideFlags: 0

@@ -115,7 +115,7 @@ namespace SSJ23_Crafting
         {
             yield return MoveAllCardsLeft();
 
-            cardPrefab.gameObject.SetActive(false);
+            // cardPrefab.gameObject.SetActive(false);
             var instance = Instantiate(cardPrefab);
             instance.SetCard(card);
 
@@ -133,8 +133,8 @@ namespace SSJ23_Crafting
             yield return null;
 
             instance.transform.position = uiSlot.transform.position + Vector3.down * 40f;
-            instance.SetOrigin(uiSlot.transform.position);
-            instance.RestoreToOrigin();
+            instance.DragInput.SetOrigin(uiSlot.transform.position);
+            instance.DragInput.RestoreToOrigin();
             instance.gameObject.SetActive(true);
             instance.Used += OnCardUsed;
             instance.Discarded += OnCardDiscarded;
@@ -154,7 +154,7 @@ namespace SSJ23_Crafting
         {
             if (!gameManager.UseCard(playerId, card.Card))
             {
-                card.RestoreToOrigin();
+                card.DragInput.RestoreToOrigin();
             }
         }
 
@@ -162,7 +162,7 @@ namespace SSJ23_Crafting
         {
             if (!gameManager.DiscardCard(playerId, card.Card))
             {
-                card.RestoreToOrigin();
+                card.DragInput.RestoreToOrigin();
             }
         }
 
@@ -183,7 +183,7 @@ namespace SSJ23_Crafting
                     }
 
                     slots[i].SetCard(slots[j].Card);
-                    slots[i].Card.RestoreToOrigin();
+                    slots[i].Card.DragInput.RestoreToOrigin();
                     slots[j].SetCard(null);
                 }
 
