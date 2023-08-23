@@ -15,7 +15,6 @@ namespace SSJ23_Crafting
         public bool IsEnabled { get; private set; } = false;
 
         public int Score { get; private set; }
-        public float Resource { get; private set; }
 
         public CardDeck Deck { get; private set; }
         public CardHand Hand { get; private set; }
@@ -37,7 +36,6 @@ namespace SSJ23_Crafting
             Deck = new CardDeck();
             Hand = new CardHand();
 
-            Resource = 0;
             Score = 0;
 
             gameManager = GameManager.FindOrCreateInstance();
@@ -46,11 +44,6 @@ namespace SSJ23_Crafting
 
         public bool IsCardUsable(CardData card)
         {
-            if (Resource < card.ResourceCost)
-            {
-                return false;
-            }
-
             return true;
         }
 
@@ -62,7 +55,6 @@ namespace SSJ23_Crafting
             }
 
             // Card is usable and was in hand
-            Resource -= card.ResourceCost;
             events.CardUsed.Emit(new CardEventArgs
             {
                 playerId = Id,
@@ -112,26 +104,8 @@ namespace SSJ23_Crafting
                 return;
             }
 
-            if (Resource < GameSettings.MaxResource)
-            {
-                float amount = Mathf.Clamp(
-                    GameSettings.ResourceRegenRate * Time.deltaTime,
-                    0f,
-                    GameSettings.MaxResource - Resource
-                );
-
-                Resource += amount;
-                events.ResourceChanged.Emit(new ResourceEventArgs
-                {
-                    playerId = Id,
-                    amount = amount,
-                    totalValue = Resource
-                });
-            }
-
             Controller.OnUpdate(this);
-
-
+            
             var launchPosition = CalculateLaunchPosition();
             Debug.DrawRay(launchPosition, Vector3.up * 2f, Color.red);
         }

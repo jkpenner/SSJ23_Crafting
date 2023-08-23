@@ -227,7 +227,7 @@ namespace SSJ23_Crafting
             if (Card != null)
             {
                 nameText.text = Card.DisplayName;
-                costText.text = Card.ResourceCost.ToString();
+                costText.text = "0"; // Todo: Replace with energy cost
                 typeText.text = Card.CardType switch
                 {
                     CardType.Shaper => "Shaper",
