@@ -115,9 +115,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1496894800443054794}
   - component: {fileID: 336002209166827066}
-  - component: {fileID: 4829146053633868017}
-  - component: {fileID: 9091481835659186403}
-  - component: {fileID: 7390650966443008149}
   - component: {fileID: 5538788528873865204}
   - component: {fileID: 8277093341559706043}
   m_Layer: 0
@@ -156,54 +153,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d41502ee2956764ab3189aa17e55a88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth:
+    baseValue: 0
+  moveSpeed:
+    baseValue: 0
+  turnSpeed:
+    baseValue: 0
+  jumpSpeed:
+    baseValue: 0
   health: 1
-  attachmentPoints:
-  - {fileID: 4829146053633868017}
-  - {fileID: 9091481835659186403}
-  - {fileID: 7390650966443008149}
   launchDuration: 1
   groundMask:
     serializedVersion: 2
     m_Bits: 0
---- !u!114 &4829146053633868017
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4592289793193862615}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0aaccd524f6b5df48bffe66c6c07761e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attachmentType: 8
---- !u!114 &9091481835659186403
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4592289793193862615}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0aaccd524f6b5df48bffe66c6c07761e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attachmentType: 16
---- !u!114 &7390650966443008149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4592289793193862615}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0aaccd524f6b5df48bffe66c6c07761e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attachmentType: 32
+  attachmentSlots:
+  - type: 2
+  - type: 3
+  - type: 4
+  attachmentPoints: []
 --- !u!54 &5538788528873865204
 Rigidbody:
   m_ObjectHideFlags: 0

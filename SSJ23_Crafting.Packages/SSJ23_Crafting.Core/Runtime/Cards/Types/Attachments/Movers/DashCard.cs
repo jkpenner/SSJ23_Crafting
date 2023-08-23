@@ -14,23 +14,23 @@ namespace SSJ23_Crafting
 
         private StatMod moveMod;
 
-        public override AttachmentType AttachmentType => AttachmentType.MoverMove;
+        public override AttachmentType AttachmentType => AttachmentType.Move;
 
-        public override void OnCardEnable(Robot robot, AttachmentPoint point)
+        public override void OnCardEnable()
         {
             moveMod = StatMod.Flat(speed);
             Owner.MoveSpeed.AddMod(moveMod);
         }
 
-        public override void OnCardDisable(Robot robot, AttachmentPoint point)
+        public override void OnCardDisable()
         {
             Owner.MoveSpeed.RemoveMod(moveMod);
             moveMod = null;
         }
 
-        public override void OnCardUpdate(Robot robot, AttachmentPoint point)
+        public override void OnCardUpdate()
         {
-            if (robot.IsActionLocked && robot.ActionLockOwner != this)
+            if (Owner.IsActionLocked && Owner.ActionLockOwner != this)
             {
                 return;
             }
@@ -47,10 +47,10 @@ namespace SSJ23_Crafting
                     isDashing = false;
                     counter = 0f;
                     Owner.AllowMovement = false;
-                    robot.ReleaseActionLock(this);
+                    Owner.ReleaseActionLock(this);
                 }
             }
-            else if (counter >= interval && robot.SetActionLock(this))
+            else if (counter >= interval && Owner.SetActionLock(this))
             {
                 isDashing = true;
                 counter = 0f;

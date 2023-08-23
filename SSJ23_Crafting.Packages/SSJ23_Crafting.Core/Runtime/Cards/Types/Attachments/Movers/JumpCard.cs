@@ -14,16 +14,16 @@ namespace SSJ23_Crafting
 
         private StatMod jumpMod;
 
-        public override AttachmentType AttachmentType => AttachmentType.MoverJump;
+        public override AttachmentType AttachmentType => AttachmentType.Jump;
 
-        public override void OnCardEnable(Robot robot, AttachmentPoint point)
+        public override void OnCardEnable()
         {
             jumpMod = StatMod.Flat(jumpSpeedMod);
             Owner.JumpSpeed.AddMod(jumpMod);
             Owner.LandedOnGround += OnLandedOnGround;
         }
 
-        public override void OnCardDisable(Robot robot, AttachmentPoint point)
+        public override void OnCardDisable()
         {
             Owner.LandedOnGround -= OnLandedOnGround;
             Owner.JumpSpeed.RemoveMod(jumpMod);
@@ -37,7 +37,7 @@ namespace SSJ23_Crafting
             Owner.ReleaseActionLock(this);
         }
 
-        public override void OnCardUpdate(Robot robot, AttachmentPoint point)
+        public override void OnCardUpdate()
         {
             if (Owner.IsActionLocked && Owner.ActionLockOwner != this)
             {

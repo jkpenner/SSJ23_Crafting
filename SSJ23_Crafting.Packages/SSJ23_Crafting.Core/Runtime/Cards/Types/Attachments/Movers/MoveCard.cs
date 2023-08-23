@@ -7,25 +7,25 @@ namespace SSJ23_Crafting
     {
         [SerializeField] float moveSpeedMod = 1f;
 
-        public override AttachmentType AttachmentType => AttachmentType.MoverMove;
+        public override AttachmentType AttachmentType => AttachmentType.Move;
 
         private StatMod mod;
 
-        public override void OnCardEnable(Robot robot, AttachmentPoint point)
+        public override void OnCardEnable()
         {
             mod = StatMod.Flat(moveSpeedMod);
             Owner.MoveSpeed.AddMod(mod);
         }
 
-        public override void OnCardDisable(Robot robot, AttachmentPoint point)
+        public override void OnCardDisable()
         {
             Owner.MoveSpeed.RemoveMod(mod);
             mod = null;
         }
 
-        public override void OnCardUpdate(Robot robot, AttachmentPoint point)
+        public override void OnCardUpdate()
         {
-            if (robot.IsActionLocked)
+            if (Owner.IsActionLocked)
             {
                 return;
             }

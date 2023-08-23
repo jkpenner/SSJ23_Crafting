@@ -9,25 +9,25 @@ namespace SSJ23_Crafting
         [SerializeField] float distance = 30f;
         [SerializeField] bool onlyWhileGrounded = true;
 
-        public override AttachmentType AttachmentType => AttachmentType.MoverTurn;
+        public override AttachmentType AttachmentType => AttachmentType.Turn;
 
         private StatMod turnMod;
 
-        public override void OnCardEnable(Robot robot, AttachmentPoint point)
+        public override void OnCardEnable()
         {
             turnMod = StatMod.Flat(speed);
             Owner.TurnSpeed.AddMod(turnMod);
         }
 
-        public override void OnCardDisable(Robot robot, AttachmentPoint point)
+        public override void OnCardDisable()
         {
             Owner.TurnSpeed.RemoveMod(turnMod);
             turnMod = null;
         }
 
-        public override void OnCardUpdate(Robot robot, AttachmentPoint point)
+        public override void OnCardUpdate()
         {
-            if (!robot.IsGrounded && onlyWhileGrounded)
+            if (!Owner.IsGrounded && onlyWhileGrounded)
             {
                 return;
             }

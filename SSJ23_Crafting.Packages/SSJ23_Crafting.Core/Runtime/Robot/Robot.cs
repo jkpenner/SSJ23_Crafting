@@ -17,6 +17,8 @@ namespace SSJ23_Crafting
         Face,
     }
 
+
+
     [RequireComponent(typeof(Rigidbody))]
     public class Robot : MonoBehaviour
     {
@@ -26,9 +28,12 @@ namespace SSJ23_Crafting
         [SerializeField] Stat jumpSpeed = new Stat(0f);
 
         [SerializeField] int health = 1;
-        [SerializeField] AttachmentPoint[] attachmentPoints;
         [SerializeField] float launchDuration = 1f;
         [SerializeField] LayerMask groundMask;
+
+        [Header("Attachments")]
+        [SerializeField] AttachmentSlot[] attachmentSlots;
+        [SerializeField] AttachmentPoint[] attachmentPoints;
 
         public PlayerId PlayerId { get; private set; }
         public RobotState State { get; private set; }
@@ -78,10 +83,30 @@ namespace SSJ23_Crafting
             Rigidbody.useGravity = true;
             Rigidbody.isKinematic = false;
             Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+
+            foreach (var slot in attachmentSlots)
+            {
+                if (slot.Card == null)
+                {
+                    continue;
+                }
+
+                slot.Card.OnCardEnable();
+            }
         }
 
         public void Disable()
         {
+            foreach (var slot in attachmentSlots)
+            {
+                if (slot.Card == null)
+                {
+                    continue;
+                }
+
+                slot.Card.OnCardDisable();
+            }
+
             Rigidbody.useGravity = false;
             Rigidbody.isKinematic = true;
             Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
@@ -139,11 +164,23 @@ namespace SSJ23_Crafting
             }
         }
 
-        public bool IsValidAttachment(AttachmentType attachmentType)
+        public bool IsAttached(AttachmentCard attachment)
         {
-            foreach (var attachmentPoint in attachmentPoints)
+            foreach (var slot in attachmentSlots)
             {
-                if (attachmentPoint.AttachmentType == attachmentType)
+                if (slot.Card == attachment)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool IsValidAttachment(AttachmentCard card)
+        {
+            foreach (var slot in attachmentSlots)
+            {
+                if (slot.IsValidAttachment(card))
                 {
                     return true;
                 }
@@ -152,16 +189,48 @@ namespace SSJ23_Crafting
             return false;
         }
 
-        public void Attach(AttachmentCard attachment)
+        public bool Attach(AttachmentCard attachment)
         {
-            attachment.Owner = this;
-            foreach (var attachmentPoint in attachmentPoints)
+            if (!IsValidAttachment(attachment))
             {
-                if (attachmentPoint.AttachmentType == attachment.AttachmentType)
-                {
-                    attachmentPoint.Attach(this, attachment);
-                }
+                return false;
             }
+
+            attachment.Owner = this;
+
+            foreach (var slot in attachmentSlots)
+            {
+                if (!slot.IsValidAttachment(attachment))
+                {
+                    continue;
+                }
+
+                slot.Card = attachment;
+            }
+
+            attachment.OnCardAttach();
+            return true;
+        }
+
+        public bool Detach(AttachmentCard attachment)
+        {
+            if (!IsAttached(attachment))
+            {
+                return false;
+            }
+
+            attachment.OnCardDetach();
+
+            foreach (var slot in attachmentSlots)
+            {
+                if (slot.Card != attachment)
+                {
+                    continue;
+                }
+
+                slot.Card = null;
+            }
+            return true;
         }
 
         public void Launch(Vector3 target)
@@ -264,6 +333,16 @@ namespace SSJ23_Crafting
 
         private void UpdateBattleState()
         {
+            foreach (var slot in attachmentSlots)
+            {
+                if (slot.Card == null)
+                {
+                    continue;
+                }
+
+                slot.Card.OnCardUpdate();
+            }
+
             if (AllowMovement)
             {
                 var movement = MoveDirection * MoveSpeed.Value * Time.deltaTime;
@@ -285,33 +364,14 @@ namespace SSJ23_Crafting
                         break;
                 }
             }
-
-            foreach (var attachmentPoint in attachmentPoints)
-            {
-                attachmentPoint.UpdateAttachment(this);
-            }
         }
 
         private void SetState(RobotState state)
         {
             if (State != state)
             {
-                OnStateExit(State);
                 State = state;
                 OnStateEnter(State);
-            }
-        }
-
-        private void OnStateExit(RobotState state)
-        {
-            switch (State)
-            {
-                case RobotState.Battle:
-                    foreach (var attachmentPoint in attachmentPoints)
-                    {
-                        attachmentPoint.Disable(this);
-                    }
-                    break;
             }
         }
 
@@ -319,18 +379,18 @@ namespace SSJ23_Crafting
         {
             switch (State)
             {
+                case RobotState.Build:
+                    Disable();
+                    break;
                 case RobotState.Launch:
                     Disable();
                     Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
                     break;
                 case RobotState.Battle:
                     Enable();
-                    foreach (var attachmentPoint in attachmentPoints)
-                    {
-                        attachmentPoint.Enable(this);
-                    }
                     break;
                 case RobotState.Dead:
+                    Disable();
                     Destroy(this.gameObject);
                     break;
             }
