@@ -17,6 +17,16 @@ namespace SSJ23_Crafting
             Cards.Add(card);
         }
 
+        public CardData GetCard(int index)
+        {
+            if (index >= 0 && index < Cards.Count)
+            {
+                return Cards[index];
+            }
+
+            return null;
+        }
+
         public bool HasCard(CardData target)
         {
             foreach(var card in Cards)

@@ -58,7 +58,7 @@ namespace SSJ23_Crafting
         private Vector3 launchTarget;
         private float launchPercent;
 
-
+        public AttachmentSlot[] Slots => attachmentSlots;
 
         public event Action LandedOnGround;
         public event Action<Robot> LandedOnRobot;
