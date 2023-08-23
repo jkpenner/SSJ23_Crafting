@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 3175798299263536402}
   - component: {fileID: 1629559085442142581}
   - component: {fileID: 1295215203577420710}
+  - component: {fileID: 5529392701981443085}
   m_Layer: 5
   m_Name: UICard
   m_TagString: Untagged
@@ -267,6 +268,18 @@ MonoBehaviour:
   activateDistance: 1
   maxDragDistance: 0
   restoreRate: 0.25
+--- !u!225 &5529392701981443085
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3876396667099352515}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5602742294890809211
 GameObject:
   m_ObjectHideFlags: 0

@@ -117,6 +117,7 @@ namespace SSJ23_Crafting
 
             // cardPrefab.gameObject.SetActive(false);
             var instance = Instantiate(cardPrefab);
+            instance.Hide();
             instance.SetCard(card);
 
             var uiSlot = GetFirstEmptySlot();
@@ -135,9 +136,11 @@ namespace SSJ23_Crafting
             instance.transform.position = uiSlot.transform.position + Vector3.down * 40f;
             instance.DragInput.SetOrigin(uiSlot.transform.position);
             instance.DragInput.RestoreToOrigin();
-            instance.gameObject.SetActive(true);
+
             instance.Used += OnCardUsed;
             instance.Discarded += OnCardDiscarded;
+
+            instance.Show();
 
             if (drawCardQueue.Count > 0)
             {

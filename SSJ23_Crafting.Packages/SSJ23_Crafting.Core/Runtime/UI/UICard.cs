@@ -22,6 +22,8 @@ namespace SSJ23_Crafting
         public Action<UICard> Used;
         public Action<UICard> Discarded;
 
+        public bool IsVisible { get; private set; }
+
         public CardData Card { get; private set; }
 
         private void Awake()
@@ -68,6 +70,26 @@ namespace SSJ23_Crafting
             }
         }
 
+        public void Hide()
+        {
+            IsVisible = false;
+            GetComponent<CanvasGroup>().alpha = 0f;
+            for (int i= 0; i < visualParent.childCount; i++)
+            {
+                visualParent.GetChild(i).gameObject.SetActive(false);
+            }
+        }
+
+        public void Show()
+        {
+            IsVisible = true;
+            GetComponent<CanvasGroup>().alpha = 1f;
+            for (int i= 0; i < visualParent.childCount; i++)
+            {
+                visualParent.GetChild(i).gameObject.SetActive(true);
+            }
+        }
+
         public void SetCard(CardData card)
         {
             Card = card;
@@ -97,6 +119,7 @@ namespace SSJ23_Crafting
                     instance.transform.localRotation = Quaternion.identity;
                     instance.transform.localScale = Vector3.one;
                     instance.layer = LayerMask.NameToLayer("UI");
+                    instance.SetActive(IsVisible);
                 }
             }
         }
