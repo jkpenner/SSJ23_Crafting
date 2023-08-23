@@ -11,9 +11,20 @@ namespace SSJ23_Crafting
         Dead,
     }
 
+    public enum RotationMode
+    {
+        Turn,
+        Face,
+    }
+
     [RequireComponent(typeof(Rigidbody))]
     public class Robot : MonoBehaviour
     {
+        [SerializeField] Stat maxHealth = new Stat(0f);
+        [SerializeField] Stat moveSpeed = new Stat(0f);
+        [SerializeField] Stat turnSpeed = new Stat(0f);
+        [SerializeField] Stat jumpSpeed = new Stat(0f);
+
         [SerializeField] int health = 1;
         [SerializeField] AttachmentPoint[] attachmentPoints;
         [SerializeField] float launchDuration = 1f;
@@ -22,6 +33,17 @@ namespace SSJ23_Crafting
         public PlayerId PlayerId { get; private set; }
         public RobotState State { get; private set; }
         public Rigidbody Rigidbody { get; private set; }
+
+        public bool AllowMovement { get; set; } = false;
+        public Vector3 MoveDirection { get; set; }
+
+        public bool AllowRotation { get; set; } = false;
+        public RotationMode RotationMode { get; set; }
+        public Vector3 TurnDirection { get; set; }
+
+        public Stat MoveSpeed => moveSpeed;
+        public Stat TurnSpeed => turnSpeed;
+        public Stat JumpSpeed => jumpSpeed;
 
         public int Health => health;
         public bool IsGrounded { get; private set; }
@@ -132,6 +154,7 @@ namespace SSJ23_Crafting
 
         public void Attach(AttachmentCard attachment)
         {
+            attachment.Owner = this;
             foreach (var attachmentPoint in attachmentPoints)
             {
                 if (attachmentPoint.AttachmentType == attachment.AttachmentType)
@@ -178,6 +201,15 @@ namespace SSJ23_Crafting
                     groundMask
                 )
             );
+
+            // Direction (from rotation)
+            // MoveSpeed(+/-), TurnSpeed (+/-), Speed Modifier
+
+
+            // Move (Move Direction, Move Speed)
+            // Turn (Turn Direction, Turn Speed)
+            // Jump (Jump Height, Jump Duration)
+            // Dash (Dash Direction, Dash Speed, Dash Duration)
         }
 
         private void SetGrounded(bool isGrounded)
@@ -232,6 +264,28 @@ namespace SSJ23_Crafting
 
         private void UpdateBattleState()
         {
+            if (AllowMovement)
+            {
+                var movement = MoveDirection * MoveSpeed.Value * Time.deltaTime;
+                var nextPosition = transform.position + movement;
+                Rigidbody.MovePosition(nextPosition);
+            }
+
+            if (AllowRotation)
+            {
+                switch (RotationMode)
+                {
+                    case RotationMode.Turn:
+                        var rotation = Quaternion.AngleAxis(TurnSpeed.Value * Time.deltaTime, Vector3.up);
+                        Rigidbody.MoveRotation(rotation * Rigidbody.rotation);
+                        break;
+                    case RotationMode.Face:
+                        var faceRotation = Quaternion.LookRotation(TurnDirection, Vector3.up);
+                        Rigidbody.MoveRotation(faceRotation);
+                        break;
+                }
+            }
+
             foreach (var attachmentPoint in attachmentPoints)
             {
                 attachmentPoint.UpdateAttachment(this);
@@ -280,6 +334,16 @@ namespace SSJ23_Crafting
                     Destroy(this.gameObject);
                     break;
             }
+        }
+
+        public void Jump()
+        {
+            IsGrounded = false;
+            Rigidbody.velocity = new Vector3(
+                Rigidbody.velocity.x,
+                jumpSpeed.Value,
+                Rigidbody.velocity.z
+            );
         }
     }
 }

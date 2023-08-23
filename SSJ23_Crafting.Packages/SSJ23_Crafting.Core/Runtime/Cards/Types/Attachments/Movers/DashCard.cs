@@ -12,7 +12,21 @@ namespace SSJ23_Crafting
         private float counter = 0f;
         private bool isDashing = false;
 
+        private StatMod moveMod;
+
         public override AttachmentType AttachmentType => AttachmentType.MoverMove;
+
+        public override void OnCardEnable(Robot robot, AttachmentPoint point)
+        {
+            moveMod = StatMod.Flat(speed);
+            Owner.MoveSpeed.AddMod(moveMod);
+        }
+
+        public override void OnCardDisable(Robot robot, AttachmentPoint point)
+        {
+            Owner.MoveSpeed.RemoveMod(moveMod);
+            moveMod = null;
+        }
 
         public override void OnCardUpdate(Robot robot, AttachmentPoint point)
         {
@@ -25,13 +39,14 @@ namespace SSJ23_Crafting
 
             if (isDashing)
             {
-                var movement = robot.transform.forward * speed * Time.deltaTime;
-                robot.Rigidbody.MovePosition(robot.transform.position + movement);
+                Owner.AllowMovement = true;
+                Owner.MoveDirection = Owner.transform.forward;
 
                 if (counter >= duration)
                 {
                     isDashing = false;
                     counter = 0f;
+                    Owner.AllowMovement = false;
                     robot.ReleaseActionLock(this);
                 }
             }

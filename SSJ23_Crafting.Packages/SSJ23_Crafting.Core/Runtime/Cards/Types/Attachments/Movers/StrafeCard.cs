@@ -2,10 +2,10 @@ using UnityEngine;
 
 namespace SSJ23_Crafting
 {
-    [CreateAssetMenu(menuName = "Cards/Move")]
-    public class MoveCard : MoverCard
+    [CreateAssetMenu(menuName = "Cards/Strafe")]
+    public class StrafeCard : MoverCard
     {
-        [SerializeField] float moveSpeedMod = 1f;
+        [SerializeField] float strafeSpeedMod = 1f;
 
         public override AttachmentType AttachmentType => AttachmentType.MoverMove;
 
@@ -13,7 +13,7 @@ namespace SSJ23_Crafting
 
         public override void OnCardEnable(Robot robot, AttachmentPoint point)
         {
-            mod = StatMod.Flat(moveSpeedMod);
+            mod = StatMod.Flat(strafeSpeedMod);
             Owner.MoveSpeed.AddMod(mod);
         }
 
@@ -31,7 +31,7 @@ namespace SSJ23_Crafting
             }
 
             Owner.AllowMovement = true;
-            Owner.MoveDirection = Owner.transform.forward;
+            Owner.MoveDirection = Owner.transform.right;
         }
     }
 }

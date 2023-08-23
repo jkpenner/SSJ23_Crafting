@@ -2,6 +2,7 @@ namespace SSJ23_Crafting
 {
     public abstract class AttachmentCard : CardData
     {
+        public Robot Owner { get; set; }
         public abstract AttachmentType AttachmentType { get; }
 
         public override bool IsUsable(Player player)
