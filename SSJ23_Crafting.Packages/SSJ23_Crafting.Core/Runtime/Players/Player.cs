@@ -211,6 +211,9 @@ namespace SSJ23_Crafting
             launcher.Launched -= OnLaunch;
 
             var launchTarget = CalculateLaunchPosition();
+
+            gameManager.RegisterRobot(Robot);
+
             Robot.Launch(launchTarget);
             Robot = null;
         }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace SSJ23_Crafting
@@ -34,6 +35,9 @@ namespace SSJ23_Crafting
         [Header("Attachments")]
         [SerializeField] AttachmentSlot[] attachmentSlots;
         [SerializeField] AttachmentPoint[] attachmentPoints;
+
+        [Header("Effects")]
+        [SerializeField] ParticleSystem explodePrefab;
 
         public PlayerId PlayerId { get; private set; }
         public RobotState State { get; private set; }
@@ -309,8 +313,46 @@ namespace SSJ23_Crafting
             {
                 health = 0;
                 Destroyed?.Invoke(source, clampedDamage);
-                SetState(RobotState.Dead);
+                Explode();
             }
+        }
+
+        public void Explode()
+        {
+            if (State == RobotState.Dead)
+            {
+                return;
+            }
+
+            SetState(RobotState.Dead);
+
+            var gameManager = GameManager.FindOrCreateInstance();
+            if (gameManager != null)
+            {
+                gameManager.UnregisterRobot(this);
+            }
+
+            StartCoroutine(ExplodeRoutine());
+        }
+
+        private IEnumerator ExplodeRoutine()
+        {
+            if (explodePrefab != null)
+            {
+                var explosion = GameObject.Instantiate(
+                    explodePrefab, 
+                    transform.position, 
+                    transform.rotation
+                );
+            }
+
+            while (transform.localScale.sqrMagnitude > 0f)
+            {
+                transform.localScale -= Vector3.one * Time.deltaTime;
+                yield return null;
+            }
+
+            Destroy(this.gameObject);
         }
 
         private void UpdateLaunchState()

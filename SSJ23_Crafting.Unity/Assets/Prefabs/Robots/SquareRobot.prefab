@@ -171,6 +171,8 @@ MonoBehaviour:
   - type: 3
   - type: 4
   attachmentPoints: []
+  explodePrefab: {fileID: 836436297344918227, guid: 764d748d75c0e844bb5e5e08c3483937,
+    type: 3}
 --- !u!54 &5538788528873865204
 Rigidbody:
   m_ObjectHideFlags: 0

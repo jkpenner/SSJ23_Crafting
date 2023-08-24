@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,6 +30,7 @@ namespace SSJ23_Crafting
         public Player PlayerTwo { get; private set; }
 
         public bool IsStateChanging { get; private set; }
+        public List<Robot> ActiveRobots { get; private set; } = new List<Robot>();
 
         private GameEvents events;
 
@@ -148,6 +150,21 @@ namespace SSJ23_Crafting
             {
                 return playerTwoLauncher;
             }
+        }
+
+        public void RegisterRobot(Robot robot)
+        {
+            if (ActiveRobots.Contains(robot))
+            {
+                return;
+            }
+
+            ActiveRobots.Add(robot);
+        }
+
+        public void UnregisterRobot(Robot robot)
+        {
+            ActiveRobots.Remove(robot);
         }
     }
 }

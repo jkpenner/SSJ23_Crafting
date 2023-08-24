@@ -85,7 +85,7 @@ namespace SSJ23_Crafting
 
                 foreach (var robot in GameObject.FindObjectsByType<Robot>(FindObjectsSortMode.None))
                 {
-                    Destroy(robot.gameObject);
+                    robot.Explode();
                 }
 
                 gameEvents.GameOver.Emit();
