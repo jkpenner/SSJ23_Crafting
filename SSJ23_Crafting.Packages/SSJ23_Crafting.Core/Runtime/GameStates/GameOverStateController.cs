@@ -65,12 +65,12 @@ namespace SSJ23_Crafting
 
             yield return Show();
             screenPressAction.performed += OnScreenPressed;
-            inputs.Enable();
+            // inputs.Enable();
         }
 
         public override IEnumerator OnExitState(GameState state)
         {
-            inputs.Disable();
+            // inputs.Disable();
             screenPressAction.performed -= OnScreenPressed;
             yield return Hide();
         }

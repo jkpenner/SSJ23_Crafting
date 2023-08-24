@@ -47,6 +47,7 @@ namespace SSJ23_Crafting
         {
             if (!Raycast(out var input, out var result))
             {
+                Debug.Log("Did not click on a drag input");
                 return;
             }
 
