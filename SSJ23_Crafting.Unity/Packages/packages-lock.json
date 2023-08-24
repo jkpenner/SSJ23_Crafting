@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.jkpenner.ssj23.crafting.core": {
-      "version": "file:C:/Users/pennerj/Documents/Projects/SSJ23_Crafting/SSJ23_Crafting.Packages/SSJ23_Crafting.Core",
+      "version": "file:../../SSJ23_Crafting.Packages/SSJ23_Crafting.Core",
       "depth": 0,
       "source": "local",
       "dependencies": {}
