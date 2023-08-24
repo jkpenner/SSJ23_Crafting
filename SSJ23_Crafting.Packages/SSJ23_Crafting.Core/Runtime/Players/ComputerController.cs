@@ -5,12 +5,14 @@ namespace SSJ23_Crafting
 {
     public class ComputerController : PlayerController
     {
+        private GameManager gameManager;
         private float actionDelay = 2.5f;
         private float counter = 0f;
 
+
         public override void OnEnable(Player player)
         {
-
+            gameManager = GameManager.FindOrCreateInstance();
         }
 
         public override void OnDisable(Player player)
@@ -50,7 +52,20 @@ namespace SSJ23_Crafting
             }
 
             Debug.Log("AI: Launching Robot");
-            player.LaunchRobot();
+            
+            var launcher = gameManager.GetLauncher(player.Id);
+            if (launcher == null)
+            {
+                Debug.LogError("Failed to find launcher for player");
+                return;
+            }
+
+            if (launcher.State != Launcher.LauncherState.Idle)
+            {
+                return;
+            }
+
+            player.LaunchRobot(true);
         }
 
         private bool FindAndPlayShaperCard(Player player)

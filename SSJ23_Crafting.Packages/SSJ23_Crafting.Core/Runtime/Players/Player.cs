@@ -105,21 +105,21 @@ namespace SSJ23_Crafting
             }
 
             Controller.OnUpdate(this);
-            
+
             var launchPosition = CalculateLaunchPosition();
             Debug.DrawRay(launchPosition, Vector3.up * 2f, Color.red);
         }
 
         public Vector3 CalculateLaunchPosition()
         {
-            var spawn = gameManager.GetRobotParent(Id);
-            if (spawn == null)
+            var launcher = gameManager.GetLauncher(Id);
+            if (launcher == null)
             {
                 return Vector3.zero;
             }
 
-            var origin = spawn.transform.position;
-            origin += spawn.transform.forward * GameSettings.LaunchDistance;
+            var origin = launcher.Spawn.position;
+            origin += launcher.Spawn.forward * GameSettings.LaunchDistance;
 
             if (Physics.Raycast(origin, Vector3.down, out var hit))
             {
@@ -169,17 +169,44 @@ namespace SSJ23_Crafting
             }
         }
 
-        public bool LaunchRobot()
+        public bool LaunchRobot(bool withPullback = false)
         {
             if (Robot == null)
             {
                 return false;
             }
 
+            var launcher = gameManager.GetLauncher(Id);
+            if (launcher == null)
+            {
+                return false;
+            }
+
+            launcher.Launched += OnLaunch;
+            if (withPullback)
+            {
+                launcher.LaunchWithPullback();
+            }
+            else
+            {
+                launcher.Launch();
+            }
+            return true;
+        }
+
+        private void OnLaunch()
+        {
+            var launcher = gameManager.GetLauncher(Id);
+            if (launcher == null)
+            {
+                return;
+            }
+
+            launcher.Launched -= OnLaunch;
+
             var launchTarget = CalculateLaunchPosition();
             Robot.Launch(launchTarget);
             Robot = null;
-            return true;
         }
 
         public void ChangeRobot(Robot robotPrefab)
@@ -189,12 +216,12 @@ namespace SSJ23_Crafting
             robotPrefab.gameObject.SetActive(false);
             var instance = GameObject.Instantiate(robotPrefab);
 
-            var parent = gameManager.GetRobotParent(Id);
-            if (parent != null)
+            var launcher = gameManager.GetLauncher(Id);
+            if (launcher != null)
             {
-                instance.transform.SetParent(parent);
-                instance.transform.position = parent.transform.position;
-                instance.transform.rotation = parent.transform.rotation;
+                instance.transform.SetParent(launcher.Spawn);
+                instance.transform.position = launcher.Spawn.position;
+                instance.transform.rotation = launcher.Spawn.rotation;
             }
 
             Robot = instance;

@@ -15,6 +15,9 @@ namespace SSJ23_Crafting
         [SerializeField] CardDeckData playerOneDeckData;
         [SerializeField] CardDeckData playerTwoDeckData;
 
+        [SerializeField] Launcher playerOneLauncher;
+        [SerializeField] Launcher playerTwoLauncher;
+
         [SerializeField] Transform playerOneRobotParent;
         [SerializeField] Transform playerTwoRobotParent;
 
@@ -132,15 +135,15 @@ namespace SSJ23_Crafting
             }
         }
 
-        public Transform GetRobotParent(PlayerId playerId)
+        public Launcher GetLauncher(PlayerId playerId)
         {
             if (playerId == PlayerId.One)
             {
-                return playerOneRobotParent;
+                return playerOneLauncher;
             }
             else
             {
-                return playerTwoRobotParent;
+                return playerTwoLauncher;
             }
         }
     }

@@ -43,6 +43,24 @@ namespace SSJ23_Crafting
                 gameManager.LaunchRobot(playerId);
                 dragInput.RestoreToOrigin();
             }
+
+            var launcher = gameManager.GetLauncher(playerId);
+            if (launcher != null && launcher.State == Launcher.LauncherState.Controlled)
+            {
+                launcher.Restore();
+            }
+        }
+
+        private void Update()
+        {
+            if (isDragging)
+            {
+                var launcher = gameManager.GetLauncher(playerId);
+                if (launcher != null)
+                {
+                    launcher.SetLaunchPercent(dragInput.GetDragPercent());
+                }
+            }
         }
     }
 }
