@@ -231,6 +231,7 @@ namespace SSJ23_Crafting
             }
 
             Robot = instance;
+            instance.SetOwner(Id);
             instance.gameObject.SetActive(true);
         }
 

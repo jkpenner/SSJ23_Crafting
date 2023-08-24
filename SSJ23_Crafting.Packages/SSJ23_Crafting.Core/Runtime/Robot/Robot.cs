@@ -405,5 +405,10 @@ namespace SSJ23_Crafting
                 Rigidbody.velocity.z
             );
         }
+
+        public void SetOwner(PlayerId id)
+        {
+            PlayerId = id;
+        }
     }
 }
