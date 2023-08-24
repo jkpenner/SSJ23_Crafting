@@ -10,6 +10,8 @@ namespace SSJ23_Crafting
         [SerializeField] private float maxDragDistance = 0f;
         [SerializeField] private float restoreRate = 0.25f;
 
+        [SerializeField] private bool allowNegativeDrag = true;
+
         public enum DragState
         {
             Idle,
@@ -123,9 +125,16 @@ namespace SSJ23_Crafting
                 transform.position = (transform.position - Origin).normalized * maxDragDistance + Origin;
             }
 
+            if (!allowNegativeDrag && Vector3.Dot(GetDragDirection(), (transform.position - Origin).normalized) < 0f)
+            {
+                Debug.Log("Projecting Position");
+                var projected = Vector3.Project(transform.position - Origin, Quaternion.AngleAxis(dragAngle + 90f, Vector3.forward) * Vector3.up);
+                transform.position = Origin + projected;
+            }
+
             if (Mathf.Abs(Origin.y - transform.position.y) > activateDistance)
             {
-                if (Vector3.Dot(Vector3.up, transform.position - Origin) >= 0f)
+                if (Vector3.Dot(GetDragDirection(), (transform.position - Origin).normalized) >= 0f)
                 {
                     SetDropZone(DropZone.ActionOne);
                 }
@@ -143,6 +152,11 @@ namespace SSJ23_Crafting
         public Vector3 GetDragDirection()
         {
             return Quaternion.AngleAxis(dragAngle, Vector3.forward) * Vector3.up;
+        }
+
+        public float GetDragPercent()
+        {
+            return Mathf.Clamp01(Vector3.Distance(transform.position, Origin) / activateDistance);
         }
 
         public void OnDrawGizmos()
@@ -172,7 +186,7 @@ namespace SSJ23_Crafting
                     Gizmos.color = Color.yellow;
                     break;
             }
-            
+
             Gizmos.DrawLine(transform.position, Origin);
         }
     }

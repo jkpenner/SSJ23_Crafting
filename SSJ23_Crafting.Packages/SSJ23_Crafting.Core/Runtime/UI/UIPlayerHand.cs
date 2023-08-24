@@ -134,6 +134,7 @@ namespace SSJ23_Crafting
             yield return null;
 
             instance.transform.position = uiSlot.transform.position + Vector3.down * 40f;
+            instance.transform.rotation = uiSlot.transform.rotation;
             instance.DragInput.SetOrigin(uiSlot.transform.position);
             instance.DragInput.RestoreToOrigin();
 
