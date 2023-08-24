@@ -119,7 +119,7 @@ namespace SSJ23_Crafting
             }
 
             var origin = launcher.Spawn.position;
-            origin += launcher.Spawn.forward * GameSettings.LaunchDistance;
+            origin += launcher.Spawn.forward * gameManager.Settings.LaunchDistance;
 
             if (Physics.Raycast(origin, Vector3.down, out var hit))
             {
@@ -150,9 +150,9 @@ namespace SSJ23_Crafting
 
         public void FillHand()
         {
-            while (Hand.CardCount < GameSettings.MaxHandSize)
+            while (Hand.CardCount < gameManager.Settings.MaxHandSize)
             {
-                if (Deck.IsEmpty && GameSettings.RepopulateEmptyDeck)
+                if (Deck.IsEmpty && gameManager.Settings.RepopulateEmptyDeck)
                 {
                     Deck.Populate();
                     Deck.Shuffle();

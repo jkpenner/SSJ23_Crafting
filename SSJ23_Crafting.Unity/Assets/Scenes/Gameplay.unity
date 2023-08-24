@@ -6477,6 +6477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b8e506e73e0bb439dcf8ae0f811521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: 348b4488fc63a6844bf535ebe9b13f91, type: 2}
   playerOneDeckData: {fileID: 11400000, guid: 1b8cd56cb309c584bbf2c0316a7a51b0, type: 2}
   playerTwoDeckData: {fileID: 11400000, guid: 1b8cd56cb309c584bbf2c0316a7a51b0, type: 2}
   playerOneLauncher: {fileID: 992418755}

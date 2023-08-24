@@ -16,6 +16,8 @@ namespace SSJ23_Crafting
 
     public class GameManager : Singleton<GameManager>
     {
+        [SerializeField] GameSettings settings;
+
         [SerializeField] CardDeckData playerOneDeckData;
         [SerializeField] CardDeckData playerTwoDeckData;
 
@@ -24,6 +26,8 @@ namespace SSJ23_Crafting
 
         [SerializeField] Transform playerOneRobotParent;
         [SerializeField] Transform playerTwoRobotParent;
+
+        public GameSettings Settings => settings;
 
         public GameState State { get; private set; }
         public Player PlayerOne { get; private set; }

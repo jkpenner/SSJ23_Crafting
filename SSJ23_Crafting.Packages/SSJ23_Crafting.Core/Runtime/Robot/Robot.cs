@@ -75,9 +75,12 @@ namespace SSJ23_Crafting
         public bool IsActionLocked { get; private set; }
         public CardData ActionLockOwner { get; private set; }
 
+        private GameManager gameManager;
 
         private void Awake()
         {
+            gameManager = GameManager.FindOrCreateInstance();
+
             Rigidbody = GetComponent<Rigidbody>();
             Disable();
         }
@@ -325,13 +328,7 @@ namespace SSJ23_Crafting
             }
 
             SetState(RobotState.Dead);
-
-            var gameManager = GameManager.FindOrCreateInstance();
-            if (gameManager != null)
-            {
-                gameManager.UnregisterRobot(this);
-            }
-
+            gameManager.UnregisterRobot(this);
             StartCoroutine(ExplodeRoutine());
         }
 
@@ -357,7 +354,7 @@ namespace SSJ23_Crafting
 
         private void UpdateLaunchState()
         {
-            launchPercent += 1f / GameSettings.LaunchDuration * Time.deltaTime;
+            launchPercent += 1f / gameManager.Settings.LaunchDuration * Time.deltaTime;
             if (launchPercent >= 1f)
             {
                 launchPercent = 1f;

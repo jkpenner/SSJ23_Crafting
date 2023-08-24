@@ -1,14 +1,19 @@
+using UnityEngine;
+
 namespace SSJ23_Crafting
 {
-    public static class GameSettings
+    [CreateAssetMenu(menuName = "Game Settings")]
+    public class GameSettings : ScriptableObject
     {
-        public static float ResourceRegenRate = 1.0f;
-        public static float MaxResource = 10f;
-        public static int ScoreToWin = 5;
-        public static int MaxHandSize = 6;
+        public float ResourceRegenRate = 1.0f;
+        public float MaxResource = 10f;
+        public int ScoreToWin = 5;
+        public int MaxHandSize = 6;
 
-        public static bool RepopulateEmptyDeck = true;
-        public static float LaunchDistance = 7f;
-        public static float LaunchDuration = 0.5f;
+        public bool RepopulateEmptyDeck = true;
+        public float LaunchDistance = 7f;
+        public float LaunchDuration = 0.5f;
+
+        public float GameRoundDuration = 60f;
     }
 }

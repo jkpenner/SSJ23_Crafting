@@ -8,8 +8,6 @@ namespace SSJ23_Crafting
     [RequireComponent(typeof(CanvasGroup))]
     public class GamePlayStateController : GameStateController
     {
-        [SerializeField] float gameDuration = 60f;
-        [Header("UI")]
         [SerializeField] TMP_Text playerOneScore;
         [SerializeField] TMP_Text playerTwoScore;
         [SerializeField] TMP_Text gameTime;
@@ -45,7 +43,7 @@ namespace SSJ23_Crafting
         {
             if (state == GameState.Starting)
             {
-                GameTime = gameDuration;
+                GameTime = gameManager.Settings.GameRoundDuration;
 
                 gameTime.SetText(Mathf.RoundToInt(GameTime).ToString());
                 playerOneScore.SetText("0");
@@ -121,8 +119,8 @@ namespace SSJ23_Crafting
             playerOneScore.SetText(gameManager.PlayerOne.Score.ToString());
             playerTwoScore.SetText(gameManager.PlayerTwo.Score.ToString());
 
-            if (gameManager.PlayerOne.Score >= GameSettings.ScoreToWin
-                || gameManager.PlayerTwo.Score >= GameSettings.ScoreToWin)
+            if (gameManager.PlayerOne.Score >= gameManager.Settings.ScoreToWin
+                || gameManager.PlayerTwo.Score >= gameManager.Settings.ScoreToWin)
             {
                 gameManager.SetGameState(GameState.GameOver);
             }
