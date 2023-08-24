@@ -140,6 +140,12 @@ namespace SSJ23_Crafting
 
             IsEnabled = false;
             Controller.OnDisable(this);
+
+            if (Robot != null)
+            {
+                EjectRobot();
+                Robot = null;
+            }
         }
 
         public void FillHand()
@@ -237,6 +243,11 @@ namespace SSJ23_Crafting
 
             // Future Eject robot code here
             GameObject.Destroy(Robot.gameObject);
+        }
+
+        public void EmptyHand()
+        {
+            Hand.Clear();
         }
     }
 }

@@ -30,13 +30,30 @@ namespace SSJ23_Crafting
             events.CardUsed.Register(OnCardUsed);
             events.CardDrawn.Register(OnCardDrawn);
             events.CardDiscarded.Register(OnCardDiscarded);
+            events.GameOver.Register(OnGameOver);
         }
+
 
         private void OnDisable()
         {
             events.CardUsed.Unregister(OnCardUsed);
             events.CardDrawn.Unregister(OnCardDrawn);
             events.CardDiscarded.Unregister(OnCardDiscarded);
+            events.GameOver.Unregister(OnGameOver);
+        }
+
+        private void OnGameOver()
+        {
+            foreach(var slot in slots)
+            {
+                if (slot.Card == null)
+                {
+                    continue; 
+                }
+                
+                Destroy(slot.Card.gameObject);
+                slot.SetCard(null);
+            }
         }
 
         private void OnCardUsed(CardEventArgs args)

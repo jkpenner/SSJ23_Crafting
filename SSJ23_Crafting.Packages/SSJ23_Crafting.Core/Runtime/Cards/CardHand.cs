@@ -44,5 +44,10 @@ namespace SSJ23_Crafting
         {
             return Cards.Remove(target);
         }
+
+        public void Clear()
+        {
+            Cards.Clear();
+        }
     }
 }

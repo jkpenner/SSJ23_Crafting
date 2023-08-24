@@ -37,7 +37,8 @@ namespace SSJ23_Crafting
         public GameEvent<CardEventArgs> CardDiscarded { get; private set; } = new GameEvent<CardEventArgs>();
         public GameEvent<CardEventArgs> CardDrawn { get; private set; } = new GameEvent<CardEventArgs>();
 
-
+        public GameEvent GameOver { get; private set; } = new GameEvent();
+        public GameEvent<GameState> GameStateChanged { get; private set; } = new GameEvent<GameState>();
 
         public GameEvent ShowDiscard { get; private set; } = new GameEvent();
         public GameEvent HideDiscard { get; private set; } = new GameEvent();

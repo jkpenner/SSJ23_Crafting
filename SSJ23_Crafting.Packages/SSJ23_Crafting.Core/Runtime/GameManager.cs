@@ -1,13 +1,16 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SSJ23_Crafting
 {
     public enum GameState
     {
+        Initializing,
+        MainMenu,
         Starting,
-        Active,
-        Complete,
+        GamePlay,
+        GameOver,
     }
 
     public class GameManager : Singleton<GameManager>
@@ -25,8 +28,11 @@ namespace SSJ23_Crafting
         public Player PlayerOne { get; private set; }
         public Player PlayerTwo { get; private set; }
 
+        public bool IsStateChanging { get; private set; }
+
         private GameEvents events;
 
+        private Dictionary<GameState, GameStateController> stateControllers = new Dictionary<GameState, GameStateController>();
 
         public override void Awake()
         {
@@ -36,66 +42,63 @@ namespace SSJ23_Crafting
 
             PlayerOne = new Player(PlayerId.One, new UserInputController());
             PlayerOne.Deck.SetSource(playerOneDeckData);
-            PlayerOne.Deck.Populate();
-            PlayerOne.Deck.Shuffle();
+
 
             PlayerTwo = new Player(PlayerId.Two, new ComputerController());
             PlayerTwo.Deck.SetSource(playerTwoDeckData);
-            PlayerTwo.Deck.Populate();
-            PlayerTwo.Deck.Shuffle();
         }
 
-        private IEnumerator Start()
+        private void Start()
         {
-            Debug.Log("Game Starting");
-            Debug.Log("Drawing Player Hand");
-            PlayerOne.FillHand();
-            PlayerTwo.FillHand();
+            State = GameState.Initializing;
 
-            // for (int i = 3; i > 0; i--)
-            // {
-            //     Debug.Log($"Count Down: {i}");
-            //     yield return new WaitForSeconds(1.0f);
-            // }
+            // Initialize data here
 
-            yield return null;
-
-            Debug.Log("Game Started");
-            SetGameState(GameState.Active);
+            SetGameState(GameState.MainMenu);
         }
 
-        private void Update()
+        public void RegisterGameStateController(GameState state, GameStateController controller)
         {
-            if (State == GameState.Active)
+            stateControllers[state] = controller;
+            if (State == state)
             {
-                PlayerOne.Update();
-                PlayerTwo.Update();
-
-                if (PlayerOne.Score >= GameSettings.ScoreToWin || PlayerTwo.Score >= GameSettings.ScoreToWin)
-                {
-                    SetGameState(GameState.Complete);
-                }
+                IsStateChanging = true;
+                StartCoroutine(StateEnterRoutine(state));
             }
         }
 
-        private void SetGameState(GameState state)
+        public void SetGameState(GameState nextState)
         {
-            if (state != State)
+            if (nextState != State && !IsStateChanging)
             {
-                State = state;
-                Debug.Log($"Entered {State}");
+                IsStateChanging = true;
+                StartCoroutine(StateChangeRoutine(nextState, State));
+            }
+        }
 
-                switch (State)
-                {
-                    case GameState.Active:
-                        PlayerOne.Enable();
-                        PlayerTwo.Enable();
-                        break;
-                    case GameState.Complete:
-                        PlayerOne.Disable();
-                        PlayerTwo.Disable();
-                        break;
-                }
+        private IEnumerator StateChangeRoutine(GameState nextState, GameState prevState)
+        {
+            yield return StateExitRoutine(prevState);
+            State = nextState;
+            yield return StateEnterRoutine(nextState);
+
+            IsStateChanging = false;
+            events.GameStateChanged.Emit(nextState);
+        }
+
+        private IEnumerator StateExitRoutine(GameState state)
+        {
+            if (stateControllers.TryGetValue(state, out var stateController))
+            {
+                yield return stateController.OnExitState(state);
+            }
+        }
+
+        private IEnumerator StateEnterRoutine(GameState state)
+        {
+            if (stateControllers.TryGetValue(state, out var stateController))
+            {
+                yield return stateController.OnEnterState(state);
             }
         }
 
