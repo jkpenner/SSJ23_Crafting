@@ -409,19 +409,11 @@ namespace SSJ23_Crafting
         {
             switch (State)
             {
-                case RobotState.Build:
-                    Disable();
-                    break;
-                case RobotState.Launch:
-                    Disable();
-                    Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
-                    break;
                 case RobotState.Battle:
                     Enable();
                     break;
-                case RobotState.Dead:
+                default:
                     Disable();
-                    Destroy(this.gameObject);
                     break;
             }
         }
