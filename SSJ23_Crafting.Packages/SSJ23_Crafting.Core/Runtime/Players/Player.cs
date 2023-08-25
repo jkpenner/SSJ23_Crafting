@@ -245,8 +245,8 @@ namespace SSJ23_Crafting
                 return;
             }
 
-            // Future Eject robot code here
-            GameObject.Destroy(Robot.gameObject);
+            Robot.Explode(false);
+            Robot = null;
         }
 
         public void EmptyHand()

@@ -313,7 +313,7 @@ namespace SSJ23_Crafting
             }
         }
 
-        public void Explode()
+        public void Explode(bool randomDelay = true)
         {
             if (State == RobotState.Dead)
             {
@@ -322,12 +322,15 @@ namespace SSJ23_Crafting
 
             SetState(RobotState.Dead);
             gameManager.UnregisterRobot(this);
-            StartCoroutine(ExplodeRoutine());
+            StartCoroutine(ExplodeRoutine(randomDelay));
         }
 
-        private IEnumerator ExplodeRoutine()
+        private IEnumerator ExplodeRoutine(bool randomDelay)
         {
-            yield return new WaitForSeconds(UnityEngine.Random.Range(0f, 0.5f));
+            if (randomDelay)
+            {
+                yield return new WaitForSeconds(UnityEngine.Random.Range(0f, 0.5f));
+            }
 
             if (explodePrefab != null)
             {
@@ -343,7 +346,7 @@ namespace SSJ23_Crafting
                 audioSource.PlayOneShot(explosionClips[UnityEngine.Random.Range(0, explosionClips.Length)]);
             }
 
-            while(true)
+            while (true)
             {
                 transform.localScale -= Vector3.one * Time.deltaTime;
                 if (transform.localScale.x < 0f)
