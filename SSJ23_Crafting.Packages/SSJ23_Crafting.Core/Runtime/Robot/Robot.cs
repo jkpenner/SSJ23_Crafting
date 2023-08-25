@@ -38,6 +38,8 @@ namespace SSJ23_Crafting
 
         [Header("Effects")]
         [SerializeField] ParticleSystem explodePrefab;
+        [SerializeField] AudioSource audioSource;
+        [SerializeField] AudioClip[] explosionClips;
 
         public PlayerId PlayerId { get; private set; }
         public RobotState State { get; private set; }
@@ -325,13 +327,20 @@ namespace SSJ23_Crafting
 
         private IEnumerator ExplodeRoutine()
         {
+            yield return new WaitForSeconds(UnityEngine.Random.Range(0f, 0.5f));
+
             if (explodePrefab != null)
             {
                 var explosion = GameObject.Instantiate(
-                    explodePrefab, 
-                    transform.position, 
+                    explodePrefab,
+                    transform.position,
                     transform.rotation
                 );
+            }
+
+            if (audioSource != null && explosionClips.Length > 0)
+            {
+                audioSource.PlayOneShot(explosionClips[UnityEngine.Random.Range(0, explosionClips.Length)]);
             }
 
             while (transform.localScale.sqrMagnitude > 0f)

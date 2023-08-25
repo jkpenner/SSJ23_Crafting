@@ -117,6 +117,7 @@ GameObject:
   - component: {fileID: 336002209166827066}
   - component: {fileID: 5538788528873865204}
   - component: {fileID: 8277093341559706043}
+  - component: {fileID: 2754130677416161279}
   m_Layer: 0
   m_Name: SquareRobot
   m_TagString: Untagged
@@ -173,6 +174,17 @@ MonoBehaviour:
   attachmentPoints: []
   explodePrefab: {fileID: 836436297344918227, guid: 764d748d75c0e844bb5e5e08c3483937,
     type: 3}
+  audioSource: {fileID: 2754130677416161279}
+  explosionClips:
+  - {fileID: 8300000, guid: f5a259d6eb3c0934c9bf8fff0a0408d5, type: 3}
+  - {fileID: 8300000, guid: 3a2ca33a1f439d24a8f13b5d88217a37, type: 3}
+  - {fileID: 8300000, guid: 6466d826c519fc54990e1a643449d78b, type: 3}
+  - {fileID: 8300000, guid: 81fd6a6c6c12a2243878da1582a19524, type: 3}
+  - {fileID: 8300000, guid: 44f802919efa88e499b6f2b051b0b0b2, type: 3}
+  - {fileID: 8300000, guid: c869c76a2b844fc4e8996ae1485af125, type: 3}
+  - {fileID: 8300000, guid: 9df74bce013989f408137f5d3a93e814, type: 3}
+  - {fileID: 8300000, guid: a8f288fe78165364ba4131484f1ccd87, type: 3}
+  - {fileID: 8300000, guid: 05b86aacbc5a4cc44ab73c644c8b14a3, type: 3}
 --- !u!54 &5538788528873865204
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -221,6 +233,102 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!82 &2754130677416161279
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4592289793193862615}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.5
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &8098778440557505912
 PrefabInstance:
   m_ObjectHideFlags: 0
