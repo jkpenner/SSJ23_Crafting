@@ -428,8 +428,10 @@ namespace SSJ23_Crafting
             switch (State)
             {
                 case RobotState.Battle:
+                case RobotState.Launch:
                     Enable();
                     break;
+                
                 default:
                     Disable();
                     break;
