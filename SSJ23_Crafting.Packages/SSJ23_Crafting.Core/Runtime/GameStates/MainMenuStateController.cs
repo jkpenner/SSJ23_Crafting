@@ -10,6 +10,8 @@ namespace SSJ23_Crafting
     {
         [SerializeField] InputActionAsset inputs;
         [SerializeField] string screenPressActionPath = "UI/ScreenPress";
+        
+        [SerializeField] AudioSource clickSound;
 
         private CanvasGroup canvasGroup;
         private InputAction screenPressAction;
@@ -55,6 +57,7 @@ namespace SSJ23_Crafting
         private void OnScreenPressed(InputAction.CallbackContext context)
         {
             gameManager.SetGameState(GameState.Starting);
+            clickSound.Play();
         }
 
         private IEnumerator Show()

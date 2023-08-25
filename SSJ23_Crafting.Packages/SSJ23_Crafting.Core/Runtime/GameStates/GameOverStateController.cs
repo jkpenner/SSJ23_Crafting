@@ -12,6 +12,8 @@ namespace SSJ23_Crafting
         [SerializeField] float timeout = 10f;
         [SerializeField] InputActionAsset inputs;
         [SerializeField] string screenPressActionPath = "UI/ScreenPress";
+        
+        [SerializeField] AudioSource clickSound;
 
         [Header("UI")]
         [SerializeField] TMP_Text playerOneScore;
@@ -78,6 +80,7 @@ namespace SSJ23_Crafting
         private void OnScreenPressed(InputAction.CallbackContext context)
         {
             gameManager.SetGameState(GameState.Starting);
+            clickSound.Play();
         }
 
         private IEnumerator Show()
