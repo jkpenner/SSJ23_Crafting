@@ -277,15 +277,6 @@ namespace SSJ23_Crafting
                     groundMask
                 )
             );
-
-            // Direction (from rotation)
-            // MoveSpeed(+/-), TurnSpeed (+/-), Speed Modifier
-
-
-            // Move (Move Direction, Move Speed)
-            // Turn (Turn Direction, Turn Speed)
-            // Jump (Jump Height, Jump Duration)
-            // Dash (Dash Direction, Dash Speed, Dash Duration)
         }
 
         private void SetGrounded(bool isGrounded)
