@@ -343,9 +343,15 @@ namespace SSJ23_Crafting
                 audioSource.PlayOneShot(explosionClips[UnityEngine.Random.Range(0, explosionClips.Length)]);
             }
 
-            while (transform.localScale.sqrMagnitude > 0f)
+            while(true)
             {
                 transform.localScale -= Vector3.one * Time.deltaTime;
+                if (transform.localScale.x < 0f)
+                {
+                    transform.localScale = Vector3.zero;
+                    break;
+                }
+
                 yield return null;
             }
 
