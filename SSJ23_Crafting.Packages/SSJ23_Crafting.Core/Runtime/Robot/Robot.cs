@@ -393,9 +393,7 @@ namespace SSJ23_Crafting
 
             if (AllowMovement)
             {
-                var movement = MoveDirection * MoveSpeed.Value * Time.deltaTime;
-                var nextPosition = transform.position + movement;
-                Rigidbody.MovePosition(nextPosition);
+                Rigidbody.velocity = MoveDirection * MoveSpeed.Value;
             }
 
             if (AllowRotation)
