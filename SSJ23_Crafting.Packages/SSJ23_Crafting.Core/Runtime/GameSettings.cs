@@ -15,5 +15,27 @@ namespace SSJ23_Crafting
         public float LaunchDuration = 0.5f;
 
         public float GameRoundDuration = 60f;
+
+
+
+        public Sprite ShaperCardIcon;
+        public Sprite MoveCardIcon;
+        public Sprite TurnCardIcon;
+        public Sprite JumpCardIcon;
+        public Sprite DamageCardIcon;
+        public Sprite DefendCardIcon;
+
+        public Sprite GetCardIcon(CardType type)
+        {
+            return type switch {
+                CardType.Shaper => ShaperCardIcon,
+                CardType.Move => MoveCardIcon,
+                CardType.Jump => JumpCardIcon,
+                CardType.Turn => TurnCardIcon,
+                CardType.Damager => DamageCardIcon,
+                CardType.Defender => DefendCardIcon,
+                _ => null
+            };
+        }
     }
 }

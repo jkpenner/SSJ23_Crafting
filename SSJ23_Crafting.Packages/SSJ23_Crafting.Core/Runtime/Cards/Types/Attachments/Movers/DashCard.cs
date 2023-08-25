@@ -3,7 +3,7 @@ using UnityEngine;
 namespace SSJ23_Crafting
 {
     [CreateAssetMenu(menuName = "Cards/Dash")]
-    public class DashCard : MoverCard
+    public class DashCard : AttachmentCard
     {
         [SerializeField] float speed = 1f;
         [SerializeField] float duration = 2f;
@@ -14,6 +14,7 @@ namespace SSJ23_Crafting
 
         private StatMod moveMod;
 
+        public override CardType CardType => CardType.Move;
         public override AttachmentType AttachmentType => AttachmentType.Move;
 
         public override void OnCardEnable()

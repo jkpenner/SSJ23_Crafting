@@ -3,12 +3,13 @@ using UnityEngine;
 namespace SSJ23_Crafting
 {
     [CreateAssetMenu(menuName = "Cards/Face")]
-    public class FaceCard : MoverCard
+    public class FaceCard : AttachmentCard
     {
         [SerializeField] float speed = 90f;
         [SerializeField] float distance = 30f;
         [SerializeField] bool onlyWhileGrounded = true;
 
+        public override CardType CardType => CardType.Turn;
         public override AttachmentType AttachmentType => AttachmentType.Turn;
 
         private StatMod turnMod;

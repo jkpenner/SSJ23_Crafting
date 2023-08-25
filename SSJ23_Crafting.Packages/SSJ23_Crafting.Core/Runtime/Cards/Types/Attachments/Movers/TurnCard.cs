@@ -8,11 +8,12 @@ namespace SSJ23_Crafting
     }
 
     [CreateAssetMenu(menuName = "Cards/Turn")]
-    public class TurnCard : MoverCard
+    public class TurnCard : AttachmentCard
     {
         [SerializeField] float speed = 90f;
         [SerializeField] bool onlyWhileGrounded = true;
 
+        public override CardType CardType => CardType.Turn;
         public override AttachmentType AttachmentType => AttachmentType.Turn;
 
         private StatMod turnMod;

@@ -3,10 +3,11 @@ using UnityEngine;
 namespace SSJ23_Crafting
 {
     [CreateAssetMenu(menuName = "Cards/Strafe")]
-    public class StrafeCard : MoverCard
+    public class StrafeCard : AttachmentCard
     {
         [SerializeField] float strafeSpeedMod = 1f;
 
+        public override CardType CardType => CardType.Move;
         public override AttachmentType AttachmentType => AttachmentType.Move;
 
         private StatMod mod;

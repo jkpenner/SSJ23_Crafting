@@ -20,3 +20,9 @@ MonoBehaviour:
   LaunchDistance: 7
   LaunchDuration: 0.5
   GameRoundDuration: 60
+  ShaperCardIcon: {fileID: 21300000, guid: 85801213c2e73954f8e86de9da8d8791, type: 3}
+  MoveCardIcon: {fileID: 21300000, guid: d494dec4b99b2a3418ffedeb411840a1, type: 3}
+  TurnCardIcon: {fileID: 21300000, guid: c1d5c03e56edb0d4683925d32e12bdbe, type: 3}
+  JumpCardIcon: {fileID: 21300000, guid: 7cc2c68c6a5c3ba4ca7805edf4f1bc75, type: 3}
+  DamageCardIcon: {fileID: 21300000, guid: 32f07d05275377747a8d562967bde65f, type: 3}
+  DefendCardIcon: {fileID: 21300000, guid: 1b879ebabd6e9bb489d5f6df4d902867, type: 3}

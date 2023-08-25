@@ -3,7 +3,9 @@ namespace SSJ23_Crafting
     public enum CardType
     {
         Shaper,
-        Mover,
+        Move,
+        Jump,
+        Turn,
         Damager,
         Defender,
         Ejector

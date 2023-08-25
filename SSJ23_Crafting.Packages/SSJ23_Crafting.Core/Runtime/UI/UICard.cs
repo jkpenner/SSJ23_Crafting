@@ -15,6 +15,7 @@ namespace SSJ23_Crafting
         [SerializeField] TMPro.TMP_Text typeText;
         [SerializeField] TMPro.TMP_Text costText;
         [SerializeField] Transform visualParent;
+        [SerializeField] Image iconImage;
 
         private GameEvents events;
         public UIDragInput DragInput { get; private set; }
@@ -100,12 +101,17 @@ namespace SSJ23_Crafting
                 typeText.text = Card.CardType switch
                 {
                     CardType.Shaper => "Shaper",
-                    CardType.Mover => "Mover",
+                    CardType.Move => "Mover",
+                    CardType.Jump => "Jump",
+                    CardType.Turn => "Turn",
                     CardType.Damager => "Damager",
                     CardType.Defender => "Defender",
                     CardType.Ejector => "Ejector",
                     _ => "Unknown"
                 };
+
+                iconImage.sprite = GameManager.FindOrCreateInstance()
+                    .Settings.GetCardIcon(Card.CardType);
 
                 if (visualParent != null && Card.VisualPrefab != null)
                 {

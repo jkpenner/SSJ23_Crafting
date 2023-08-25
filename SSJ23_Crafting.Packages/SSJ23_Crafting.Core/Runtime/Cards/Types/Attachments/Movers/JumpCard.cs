@@ -4,7 +4,7 @@ using UnityEngine;
 namespace SSJ23_Crafting
 {
     [CreateAssetMenu(menuName = "Cards/Jump")]
-    public class JumpCard : MoverCard
+    public class JumpCard : AttachmentCard
     {
         [SerializeField] float jumpSpeedMod = 3f;
         [SerializeField] float interval = 5f;
@@ -14,6 +14,7 @@ namespace SSJ23_Crafting
 
         private StatMod jumpMod;
 
+        public override CardType CardType => CardType.Jump;
         public override AttachmentType AttachmentType => AttachmentType.Jump;
 
         public override void OnCardEnable()
