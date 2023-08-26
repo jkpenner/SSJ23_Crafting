@@ -21,11 +21,16 @@ namespace SSJ23_Crafting
 
         private void OnLandOnGround()
         {
-            GameObject.Instantiate(
+            var gameObject = GameObject.Instantiate(
                 prefab, 
                 Owner.transform.position + offset, 
                 Owner.transform.rotation
             );
+
+            foreach(var hasOwner in gameObject.GetComponents<HasOwner>())
+            {
+                hasOwner.Owner = Owner;
+            }
         }
     }
 }
