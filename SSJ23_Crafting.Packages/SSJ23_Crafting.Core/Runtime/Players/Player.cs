@@ -273,6 +273,11 @@ namespace SSJ23_Crafting
             Hand.Clear();
         }
 
+        public void ClearScore()
+        {
+            Score = 0;
+        }
+
         public void GivePoints(int points)
         {
             Score += points;

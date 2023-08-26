@@ -45,6 +45,9 @@ namespace SSJ23_Crafting
             {
                 GameTime = gameManager.Settings.GameRoundDuration;
 
+                gameManager.PlayerOne.ClearScore();
+                gameManager.PlayerTwo.ClearScore();
+
                 gameTime.SetText(Mathf.RoundToInt(GameTime).ToString());
                 playerOneScore.SetText("0");
                 playerTwoScore.SetText("0");
@@ -59,7 +62,7 @@ namespace SSJ23_Crafting
                 gameManager.PlayerTwo.Deck.Shuffle();
                 gameManager.PlayerTwo.FillHand();
 
-                
+
 
                 yield return null;
             }
