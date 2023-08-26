@@ -21,9 +21,11 @@ namespace SSJ23_Crafting
 
         private void OnLandOnGround()
         {
+            var transformedOffset = Owner.transform.TransformDirection(offset);
+
             var gameObject = GameObject.Instantiate(
                 prefab, 
-                Owner.transform.position + offset, 
+                Owner.transform.position + transformedOffset, 
                 Owner.transform.rotation
             );
 

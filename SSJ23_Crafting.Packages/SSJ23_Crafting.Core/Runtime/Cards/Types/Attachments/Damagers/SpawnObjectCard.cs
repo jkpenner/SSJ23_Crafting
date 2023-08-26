@@ -25,10 +25,12 @@ namespace SSJ23_Crafting
                 return;
             }
 
+            var transformedOffset = Owner.transform.TransformDirection(offset);
+
             counter = 0f;
             var gameObject = GameObject.Instantiate(
                 prefab, 
-                Owner.transform.position + offset, 
+                Owner.transform.position + transformedOffset, 
                 Owner.transform.rotation
             );
 
