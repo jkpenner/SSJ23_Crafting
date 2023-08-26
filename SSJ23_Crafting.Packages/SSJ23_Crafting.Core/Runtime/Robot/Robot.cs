@@ -143,7 +143,6 @@ namespace SSJ23_Crafting
 
         private void OnHitWall(Vector3 contactNormal)
         {
-            Debug.Log("Hit a Wall");
             var forward = Motor.transform.forward;
             var reflected = Vector3.Reflect(transform.forward, contactNormal);
             reflected.y = 0;
@@ -153,19 +152,23 @@ namespace SSJ23_Crafting
             Debug.DrawRay(transform.position, reflected, Color.yellow, 1f, false);
 
             Motor.Face(reflected);
+            Motor.JumpVelocity = 5f;
+            Motor.KnockBackVelocity = 5f;
+            Motor.KnockBack(contactNormal);
         }
 
         private void OnHitRobot(Robot robot)
         {
-            // Deal hit damage here
-
-            var normal = -(Motor.transform.position - robot.transform.position).normalized;
+            var normal = (Motor.transform.position - robot.transform.position).normalized;
             var forward = Motor.transform.forward;
             var reflected = Vector3.Reflect(transform.forward, normal);
             reflected.y = 0;
             reflected.Normalize();
 
             Motor.Face(reflected);
+            Motor.JumpVelocity = 5f;
+            Motor.KnockBackVelocity = 5f;
+            Motor.KnockBack(normal);
         }
 
         public bool IsAttached(AttachmentCard attachment)
