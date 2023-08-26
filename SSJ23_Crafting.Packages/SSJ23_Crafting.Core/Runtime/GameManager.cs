@@ -170,5 +170,17 @@ namespace SSJ23_Crafting
         {
             ActiveRobots.Remove(robot);
         }
+
+        public void GivePoint(PlayerId playerId)
+        {
+            if (playerId == PlayerId.One)
+            {
+                PlayerOne.GivePoints(1);
+            }
+            else
+            {
+                PlayerTwo.GivePoints(1);
+            }
+        }
     }
 }

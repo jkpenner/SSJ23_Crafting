@@ -294,8 +294,13 @@ namespace SSJ23_Crafting
 
             Damaged?.Invoke(source, clampedDamage);
 
-            if (health <= 0)
+            if (health <= 0 && State != RobotState.Dead)
             {
+                if (source.PlayerId != this.PlayerId)
+                {
+                    gameManager.GivePoint(source.PlayerId);
+                }
+
                 health = 0;
                 Destroyed?.Invoke(source, clampedDamage);
                 Explode();
