@@ -17,5 +17,18 @@ namespace SSJ23_Crafting
                 _ => false
             };
         }
+
+        public static CardType GetCardType(AttachmentSlotType slotType)
+        {
+            return slotType switch
+            {
+                AttachmentSlotType.Damage => CardType.Damager,
+                AttachmentSlotType.Defend => CardType.Defender,
+                AttachmentSlotType.Jump => CardType.Jump,
+                AttachmentSlotType.Move => CardType.Move,
+                AttachmentSlotType.Turn => CardType.Turn,
+                _ => throw new System.InvalidOperationException()
+            };
+        }
     }
 }

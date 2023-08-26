@@ -78,10 +78,12 @@ namespace SSJ23_Crafting
         public CardData ActionLockOwner { get; private set; }
 
         private GameManager gameManager;
+        private GameEvents gameEvents;
 
         private void Awake()
         {
             gameManager = GameManager.FindOrCreateInstance();
+            gameEvents = GameEvents.FindOrCreateInstance();
 
             Rigidbody = GetComponent<Rigidbody>();
             Disable();
@@ -218,6 +220,11 @@ namespace SSJ23_Crafting
             }
 
             attachment.OnCardAttach();
+            gameEvents.CardAttached.Emit(new AttachmentEventArgs
+            {
+                playerId = PlayerId,
+                attachment = attachment
+            });
             return true;
         }
 
@@ -239,6 +246,13 @@ namespace SSJ23_Crafting
 
                 slot.Card = null;
             }
+            
+            gameEvents.CardDetached.Emit(new AttachmentEventArgs
+            {
+                playerId = PlayerId,
+                attachment = attachment
+            });
+
             return true;
         }
 

@@ -216,6 +216,12 @@ namespace SSJ23_Crafting
 
             Robot.Launch(launchTarget);
             Robot = null;
+
+            events.RobotChanged.Emit(new RobotEventArgs
+            {
+                playerId = Id,
+                robot = null
+            });
         }
 
         public void ChangeRobot(Robot robotPrefab)
@@ -236,6 +242,12 @@ namespace SSJ23_Crafting
             Robot = instance;
             instance.SetOwner(Id);
             instance.gameObject.SetActive(true);
+
+            events.RobotChanged.Emit(new RobotEventArgs
+            {
+                playerId = Id,
+                robot = Robot
+            });
         }
 
         public void EjectRobot()
@@ -247,6 +259,12 @@ namespace SSJ23_Crafting
 
             Robot.Explode(false);
             Robot = null;
+
+            events.RobotChanged.Emit(new RobotEventArgs
+            {
+                playerId = Id,
+                robot = null
+            });
         }
 
         public void EmptyHand()

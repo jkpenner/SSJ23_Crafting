@@ -13,6 +13,18 @@ namespace SSJ23_Crafting
         public float amount;
     }
 
+    public class RobotEventArgs
+    {
+        public PlayerId playerId;
+        public Robot robot;
+    }
+
+    public class AttachmentEventArgs
+    {
+        public PlayerId playerId;
+        public AttachmentCard attachment;
+    }
+
     /// <summary>
     /// Used for dispatching global level game events. When events
     /// for an individual object is required, subscribe to the 
@@ -42,5 +54,11 @@ namespace SSJ23_Crafting
 
         public GameEvent ShowDiscard { get; private set; } = new GameEvent();
         public GameEvent HideDiscard { get; private set; } = new GameEvent();
+
+
+
+        public GameEvent<RobotEventArgs> RobotChanged { get; private set; } = new GameEvent<RobotEventArgs>();
+        public GameEvent<AttachmentEventArgs> CardAttached { get; private set; } = new GameEvent<AttachmentEventArgs>();
+        public GameEvent<AttachmentEventArgs> CardDetached { get; private set; } = new GameEvent<AttachmentEventArgs>();
     }
 }
