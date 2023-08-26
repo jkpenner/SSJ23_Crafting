@@ -28,7 +28,7 @@ namespace SSJ23_Crafting
 
         public override void OnCardUpdate()
         {
-            if (!Owner.IsGrounded && onlyWhileGrounded)
+            if (!Owner.Motor.IsGrounded && onlyWhileGrounded)
             {
                 return;
             }
@@ -68,9 +68,7 @@ namespace SSJ23_Crafting
             direction.y = 0;
             direction.Normalize();
 
-            Owner.AllowRotation = true;
-            Owner.TurnDirection = direction;
-            Owner.RotationMode = RotationMode.Face;
+            Owner.Motor.Face(direction);
         }
     }
 }

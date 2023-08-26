@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 3403044173755540301}
   - component: {fileID: 7247951787760297550}
   - component: {fileID: 4009069901144950913}
+  - component: {fileID: 2024608796803143595}
   m_Layer: 0
   m_Name: CircleRobot
   m_TagString: Untagged
@@ -163,10 +164,6 @@ MonoBehaviour:
   jumpSpeed:
     baseValue: 0
   health: 1
-  launchDuration: 1
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 0
   attachmentSlots:
   - type: 2
   - type: 3
@@ -329,6 +326,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2024608796803143595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8421456058059033340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97c5bfa890350a346901eab9343bc8d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3990531791890916427
 PrefabInstance:
   m_ObjectHideFlags: 0

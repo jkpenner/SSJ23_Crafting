@@ -40,14 +40,13 @@ namespace SSJ23_Crafting
 
             if (isDashing)
             {
-                Owner.AllowMovement = true;
-                Owner.MoveDirection = Owner.transform.forward;
+                Owner.Motor.MoveVelocity = Owner.MoveSpeed.Value;
+                Owner.Motor.Move(Owner.transform.forward);
 
                 if (counter >= duration)
                 {
                     isDashing = false;
                     counter = 0f;
-                    Owner.AllowMovement = false;
                     Owner.ReleaseActionLock(this);
                 }
             }

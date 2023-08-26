@@ -32,13 +32,12 @@ namespace SSJ23_Crafting
 
         public override void OnCardUpdate()
         {
-            if (!Owner.IsGrounded && onlyWhileGrounded)
+            if (!Owner.Motor.IsGrounded && onlyWhileGrounded)
             {
                 return;
             }
 
-            Owner.AllowRotation = true;
-            Owner.RotationMode = RotationMode.Turn;
+            Owner.Motor.Turn(Owner.TurnSpeed.Value);
         }
     }
 }

@@ -21,12 +21,12 @@ namespace SSJ23_Crafting
         {
             jumpMod = StatMod.Flat(jumpSpeedMod);
             Owner.JumpSpeed.AddMod(jumpMod);
-            Owner.LandedOnGround += OnLandedOnGround;
+            Owner.Motor.OnGrounded += OnLandedOnGround;
         }
 
         public override void OnCardDisable()
         {
-            Owner.LandedOnGround -= OnLandedOnGround;
+            Owner.Motor.OnGrounded -= OnLandedOnGround;
             Owner.JumpSpeed.RemoveMod(jumpMod);
             jumpMod = null;
         }
@@ -50,7 +50,7 @@ namespace SSJ23_Crafting
             if (!isJumping && counter >= interval && Owner.SetActionLock(this))
             {
                 isJumping = true;
-                Owner.Jump();
+                Owner.Motor.Jump();
             }
         }
     }

@@ -21,6 +21,7 @@ namespace SSJ23_Crafting
 
 
     [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(RobotMotor))]
     public class Robot : MonoBehaviour
     {
         [SerializeField] Stat maxHealth = new Stat(0f);
@@ -29,8 +30,6 @@ namespace SSJ23_Crafting
         [SerializeField] Stat jumpSpeed = new Stat(0f);
 
         [SerializeField] int health = 1;
-        [SerializeField] float launchDuration = 1f;
-        [SerializeField] LayerMask groundMask;
 
         [Header("Attachments")]
         [SerializeField] AttachmentSlot[] attachmentSlots;
@@ -43,21 +42,14 @@ namespace SSJ23_Crafting
 
         public PlayerId PlayerId { get; private set; }
         public RobotState State { get; private set; }
+        public RobotMotor Motor { get; private set; }
         public Rigidbody Rigidbody { get; private set; }
-
-        public bool AllowMovement { get; set; } = false;
-        public Vector3 MoveDirection { get; set; }
-
-        public bool AllowRotation { get; set; } = false;
-        public RotationMode RotationMode { get; set; }
-        public Vector3 TurnDirection { get; set; }
 
         public Stat MoveSpeed => moveSpeed;
         public Stat TurnSpeed => turnSpeed;
         public Stat JumpSpeed => jumpSpeed;
 
         public int Health => health;
-        public bool IsGrounded { get; private set; }
 
         private Vector3 launchStart;
         private Vector3 launchMiddle;
@@ -86,14 +78,16 @@ namespace SSJ23_Crafting
             gameEvents = GameEvents.FindOrCreateInstance();
 
             Rigidbody = GetComponent<Rigidbody>();
+            Motor = GetComponent<RobotMotor>();
+            Motor.Robot = this;
             Disable();
         }
 
         public void Enable()
         {
-            Rigidbody.useGravity = true;
-            Rigidbody.isKinematic = false;
-            Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+            Motor.OnHitWall += OnHitWall;
+            Motor.OnHitRobot += OnHitRobot;
+            Motor.Enable();
 
             foreach (var slot in attachmentSlots)
             {
@@ -105,6 +99,8 @@ namespace SSJ23_Crafting
                 slot.Card.OnCardEnable();
             }
         }
+
+        
 
         public void Disable()
         {
@@ -118,9 +114,9 @@ namespace SSJ23_Crafting
                 slot.Card.OnCardDisable();
             }
 
-            Rigidbody.useGravity = false;
-            Rigidbody.isKinematic = true;
-            Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            Motor.Disable();
+            Motor.OnHitWall -= OnHitWall;
+            Motor.OnHitRobot -= OnHitRobot;
         }
 
         public bool SetActionLock(CardData obj)
@@ -145,34 +141,31 @@ namespace SSJ23_Crafting
             ActionLockOwner = null;
         }
 
-        public void OnCollisionEnter(Collision collision)
+        private void OnHitWall(Vector3 contactNormal)
         {
-            Debug.Log($"{this.name} collided with {collision.collider.name}");
+            Debug.Log("Hit a Wall");
+            var forward = Motor.transform.forward;
+            var reflected = Vector3.Reflect(transform.forward, contactNormal);
+            reflected.y = 0;
+            reflected.Normalize();
 
-            if (collision.collider.CompareTag("Wall"))
-            {
-                var newForward = Vector3.Reflect(transform.forward, collision.GetContact(0).normal);
-                transform.rotation = Quaternion.LookRotation(newForward, Vector3.up);
-                return;
-            }
+            Debug.DrawRay(transform.position, forward, Color.blue, 1f, false);
+            Debug.DrawRay(transform.position, reflected, Color.yellow, 1f, false);
 
-            var robot = collision.collider.GetComponentInParent<Robot>();
-            if (robot != null)
-            {
-                if (Vector3.Dot(Vector3.up, collision.GetContact(0).normal) > 0.65f)
-                {
-                    Debug.Log("Hit the top of another robot");
-                    // Destroy(robot.gameObject);
-                    LandedOnRobot?.Invoke(robot);
-                }
-                else
-                {
-                    Debug.Log("Hit side of another robot");
-                    var newForward = Vector3.Reflect(transform.forward, collision.GetContact(0).normal);
-                    transform.rotation = Quaternion.LookRotation(newForward, Vector3.up);
-                    ImpactedRobot?.Invoke(robot);
-                }
-            }
+            Motor.Face(reflected);
+        }
+
+        private void OnHitRobot(Robot robot)
+        {
+            // Deal hit damage here
+
+            var normal = -(Motor.transform.position - robot.transform.position).normalized;
+            var forward = Motor.transform.forward;
+            var reflected = Vector3.Reflect(transform.forward, normal);
+            reflected.y = 0;
+            reflected.Normalize();
+
+            Motor.Face(reflected);
         }
 
         public bool IsAttached(AttachmentCard attachment)
@@ -246,7 +239,7 @@ namespace SSJ23_Crafting
 
                 slot.Card = null;
             }
-            
+
             gameEvents.CardDetached.Emit(new AttachmentEventArgs
             {
                 playerId = PlayerId,
@@ -283,27 +276,6 @@ namespace SSJ23_Crafting
                 case RobotState.Battle:
                     UpdateBattleState();
                     break;
-            }
-
-            SetGrounded(
-                Physics.Raycast(
-                    transform.position + Vector3.up,
-                    Vector3.down,
-                    1.1f,
-                    groundMask
-                )
-            );
-        }
-
-        private void SetGrounded(bool isGrounded)
-        {
-            if (IsGrounded != isGrounded)
-            {
-                IsGrounded = isGrounded;
-                if (IsGrounded)
-                {
-                    LandedOnGround?.Invoke();
-                }
             }
         }
 
@@ -385,7 +357,7 @@ namespace SSJ23_Crafting
 
             var a = Vector3.Lerp(launchStart, launchMiddle, launchPercent);
             var b = Vector3.Lerp(launchMiddle, launchTarget, launchPercent);
-            Rigidbody.MovePosition(Vector3.Lerp(a, b, launchPercent));
+            Motor.Rigidbody.MovePosition(Vector3.Lerp(a, b, launchPercent));
 
             if (launchPercent >= 1f)
             {
@@ -403,26 +375,6 @@ namespace SSJ23_Crafting
                 }
 
                 slot.Card.OnCardUpdate();
-            }
-
-            if (AllowMovement)
-            {
-                Rigidbody.velocity = MoveDirection * MoveSpeed.Value;
-            }
-
-            if (AllowRotation)
-            {
-                switch (RotationMode)
-                {
-                    case RotationMode.Turn:
-                        var rotation = Quaternion.AngleAxis(TurnSpeed.Value * Time.deltaTime, Vector3.up);
-                        Rigidbody.MoveRotation(rotation * Rigidbody.rotation);
-                        break;
-                    case RotationMode.Face:
-                        var faceRotation = Quaternion.LookRotation(TurnDirection, Vector3.up);
-                        Rigidbody.MoveRotation(faceRotation);
-                        break;
-                }
             }
         }
 
@@ -443,21 +395,11 @@ namespace SSJ23_Crafting
                 case RobotState.Launch:
                     Enable();
                     break;
-                
+
                 default:
                     Disable();
                     break;
             }
-        }
-
-        public void Jump()
-        {
-            IsGrounded = false;
-            Rigidbody.velocity = new Vector3(
-                Rigidbody.velocity.x,
-                jumpSpeed.Value,
-                Rigidbody.velocity.z
-            );
         }
 
         public void SetOwner(PlayerId id)

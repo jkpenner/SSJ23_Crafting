@@ -31,8 +31,8 @@ namespace SSJ23_Crafting
                 return;
             }
 
-            Owner.AllowMovement = true;
-            Owner.MoveDirection = Owner.transform.right;
+            Owner.Motor.MoveVelocity = Owner.MoveSpeed.Value;
+            Owner.Motor.Move(Owner.transform.right);
         }
     }
 }
