@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1516794012211178201}
   - component: {fileID: 7139958702209606606}
   - component: {fileID: 5541833612766625409}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 7247951787760297550}
   - component: {fileID: 4009069901144950913}
   - component: {fileID: 2024608796803143595}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CircleRobot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -416,6 +416,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cone
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d55a1911c037ddf42927881515b86098,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
