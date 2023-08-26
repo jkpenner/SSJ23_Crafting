@@ -100,7 +100,7 @@ namespace SSJ23_Crafting
             }
         }
 
-        
+
 
         public void Disable()
         {
@@ -159,6 +159,11 @@ namespace SSJ23_Crafting
 
         private void OnHitRobot(Robot robot)
         {
+            if (robot.PlayerId != this.PlayerId)
+            {
+                robot.Damage(this, 1);
+            }
+
             var normal = (Motor.transform.position - robot.transform.position).normalized;
             var forward = Motor.transform.forward;
             var reflected = Vector3.Reflect(transform.forward, normal);
