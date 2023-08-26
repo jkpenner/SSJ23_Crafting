@@ -168,6 +168,7 @@ MonoBehaviour:
   - type: 2
   - type: 3
   - type: 4
+  - type: 0
   attachmentPoints: []
   explodePrefab: {fileID: 836436297344918227, guid: 764d748d75c0e844bb5e5e08c3483937,
     type: 3}
