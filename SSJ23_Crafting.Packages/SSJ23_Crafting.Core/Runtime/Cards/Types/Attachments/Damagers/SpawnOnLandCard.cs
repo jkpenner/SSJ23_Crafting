@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace SSJ23_Crafting
@@ -7,5 +8,24 @@ namespace SSJ23_Crafting
     {
         [SerializeField] GameObject prefab;
         [SerializeField] Vector3 offset;
+
+        public override void OnCardEnable()
+        {
+            Owner.Motor.OnGrounded += OnLandOnGround;
+        }
+
+        public override void OnCardDisable()
+        {
+            Owner.Motor.OnGrounded -= OnLandOnGround;
+        }
+
+        private void OnLandOnGround()
+        {
+            GameObject.Instantiate(
+                prefab, 
+                Owner.transform.position + offset, 
+                Owner.transform.rotation
+            );
+        }
     }
 }
