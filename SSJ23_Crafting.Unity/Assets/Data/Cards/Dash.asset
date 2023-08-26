@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b0daab7e536d2c49975d087cd96b172, type: 3}
   m_Name: Dash
   m_EditorClassIdentifier: 
+  visualPrefab: {fileID: 0}
   displayName: Dash
-  resourceCost: 1
-  speed: 20
+  speed: 10
   duration: 1
   interval: 4

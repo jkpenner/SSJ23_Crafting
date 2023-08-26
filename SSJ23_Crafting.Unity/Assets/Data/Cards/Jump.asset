@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1151f074cda5f384081a52b81060eb0d, type: 3}
   m_Name: Jump
   m_EditorClassIdentifier: 
+  visualPrefab: {fileID: 0}
   displayName: Jump
-  resourceCost: 1
-  height: 3
-  duration: 1
+  jumpSpeedMod: 4
   interval: 5

@@ -14,5 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visualPrefab: {fileID: 0}
   displayName: Strafe
-  resourceCost: 0
-  strafeSpeedMod: 4
+  strafeSpeedMod: 2
