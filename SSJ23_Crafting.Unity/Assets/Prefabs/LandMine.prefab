@@ -152,11 +152,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d5f35d10f976f3488fd7cd8ef19f6b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  visuals: {fileID: 700866547137878738}
   particles: {fileID: 336931606234958362}
   audioSource: {fileID: 6661482463984030091}
   destroyAfter: 4
   damageRadius: 5
   damageAmount: 1
+  lifetime: 4
   damageLayerMask:
     serializedVersion: 2
     m_Bits: 128
