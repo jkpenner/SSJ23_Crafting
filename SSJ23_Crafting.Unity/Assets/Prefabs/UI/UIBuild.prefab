@@ -228,6 +228,7 @@ MonoBehaviour:
   elementPrefab: {fileID: -76673426740119095, guid: 941794a863556434fb0a2f716fe74c70,
     type: 3}
   elementParent: {fileID: 3165042258016561271}
+  shapeName: {fileID: 7012047816318182900}
   invalidGroup: {fileID: 3098583628246742378}
   activeGroup: {fileID: 7224489506392372251}
 --- !u!1 &1938520798717900373

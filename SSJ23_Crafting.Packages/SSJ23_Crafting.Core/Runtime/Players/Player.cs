@@ -240,6 +240,7 @@ namespace SSJ23_Crafting
             }
 
             Robot = instance;
+            Robot.name = robotPrefab.name;
             instance.SetOwner(Id);
             instance.gameObject.SetActive(true);
 

@@ -1,3 +1,4 @@
+using TMPro;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +10,8 @@ namespace SSJ23_Crafting
     {
         [SerializeField] UIBuildElement elementPrefab;
         [SerializeField] RectTransform elementParent;
+
+        [SerializeField] TMP_Text shapeName;
 
         [SerializeField] CanvasGroup invalidGroup;
         [SerializeField] CanvasGroup activeGroup;
@@ -54,11 +57,13 @@ namespace SSJ23_Crafting
 
             if (args.robot != null)
             {
+                shapeName.SetText(args.robot.name);
                 UpdateDisplayedElements();
                 ShowActiveGroup();
             }
             else
             {
+                shapeName.SetText("None");
                 ShowInvalidGroup();
             }
         }
