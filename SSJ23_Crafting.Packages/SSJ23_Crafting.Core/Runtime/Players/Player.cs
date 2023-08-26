@@ -212,10 +212,13 @@ namespace SSJ23_Crafting
 
             var launchTarget = CalculateLaunchPosition();
 
-            gameManager.RegisterRobot(Robot);
+            if (Robot != null)
+            {
+                gameManager.RegisterRobot(Robot);
 
-            Robot.Launch(launchTarget);
-            Robot = null;
+                Robot.Launch(launchTarget);
+                Robot = null;
+            }
 
             events.RobotChanged.Emit(new RobotEventArgs
             {

@@ -12,10 +12,12 @@ namespace SSJ23_Crafting
         [SerializeField] Canvas canvas;
 
         [SerializeField] InputActionAsset inputs;
-        [SerializeField] string screenPressActionPath = "UI/ScreenPress";
+        [SerializeField] string screenTapActionPath = "UI/ScreenTap";
+        [SerializeField] string screenHoldActionPath = "UI/ScreenHold";
         [SerializeField] string screenPositionActionPath = "UI/ScreenPosition";
 
-        private InputAction screenPressAction;
+        private InputAction screenTapAction;
+        private InputAction screenHoldAction;
         private InputAction screenPositionAction;
 
         public UIDragInput ActiveInput { get; private set; }
@@ -23,9 +25,12 @@ namespace SSJ23_Crafting
 
         private void OnEnable()
         {
-            screenPressAction = inputs.FindAction(screenPressActionPath);
-            screenPressAction.started += OnScreenPressStarted;
-            screenPressAction.canceled += OnScreenPressCanceled;
+            screenTapAction = inputs.FindAction(screenTapActionPath);
+            screenTapAction.performed += OnScreenTap;
+
+            screenHoldAction = inputs.FindAction(screenHoldActionPath);
+            screenHoldAction.started += OnScreenPressStarted;
+            screenHoldAction.canceled += OnScreenPressCanceled;
 
             screenPositionAction = inputs.FindAction(screenPositionActionPath);
 
@@ -38,9 +43,21 @@ namespace SSJ23_Crafting
 
             screenPositionAction = null;
 
-            screenPressAction.started -= OnScreenPressStarted;
-            screenPressAction.canceled -= OnScreenPressCanceled;
-            screenPressAction = null;
+            screenTapAction.performed -= OnScreenTap;
+            screenHoldAction.started -= OnScreenPressStarted;
+            screenHoldAction.canceled -= OnScreenPressCanceled;
+            screenHoldAction = null;
+        }
+
+        private void OnScreenTap(InputAction.CallbackContext context)
+        {
+            if (!Raycast(out var input, out var result))
+            {
+                Debug.Log("Did not click on a drag input");
+                return;
+            }
+            
+            input.Activate();
         }
 
         private void OnScreenPressStarted(InputAction.CallbackContext context)

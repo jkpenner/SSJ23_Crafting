@@ -60,6 +60,12 @@ namespace SSJ23_Crafting
             }
         }
 
+        public void Activate()
+        {
+            SetDropZone(DropZone.ActionOne);
+            DragCanceled?.Invoke();
+        }
+
         private void Update()
         {
             switch (State)

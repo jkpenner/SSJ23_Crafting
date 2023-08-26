@@ -10,6 +10,7 @@ namespace SSJ23_Crafting
         [SerializeField] float damageRadius = 5f;
         [SerializeField] int damageAmount = 1;
         [SerializeField] LayerMask damageLayerMask;
+        [SerializeField] float knockBackVelocity = 2f;
 
         public Robot Owner { get; set; }
 
@@ -44,7 +45,13 @@ namespace SSJ23_Crafting
                     continue;
                 }
 
+                var toRobot = robot.transform.position - transform.position;
+                toRobot.Normalize();
+
                 robot.Damage(Owner, damageAmount);
+                robot.Motor.JumpVelocity = knockBackVelocity;
+                robot.Motor.KnockBackVelocity = knockBackVelocity;
+                robot.Motor.KnockBack(toRobot);
             }
 
 

@@ -11,7 +11,7 @@ namespace SSJ23_Crafting
     {
         [SerializeField] float timeout = 10f;
         [SerializeField] InputActionAsset inputs;
-        [SerializeField] string screenPressActionPath = "UI/ScreenPress";
+        [SerializeField] string screenTapActionPath = "UI/ScreenTap";
         
         [SerializeField] AudioSource clickSound;
 
@@ -43,7 +43,7 @@ namespace SSJ23_Crafting
             canvasGroup.interactable = false;
             canvasGroup.blocksRaycasts = false;
 
-            screenPressAction = inputs.FindAction(screenPressActionPath);
+            screenPressAction = inputs.FindAction(screenTapActionPath);
         }
 
         private void Update()

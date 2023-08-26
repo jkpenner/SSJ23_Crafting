@@ -9,7 +9,7 @@ namespace SSJ23_Crafting
     public class MainMenuStateController : GameStateController
     {
         [SerializeField] InputActionAsset inputs;
-        [SerializeField] string screenPressActionPath = "UI/ScreenPress";
+        [SerializeField] string screenTapActionPath = "UI/ScreenTap";
         
         [SerializeField] AudioSource clickSound;
 
@@ -36,7 +36,7 @@ namespace SSJ23_Crafting
             canvasGroup.interactable = false;
             canvasGroup.blocksRaycasts = false;
 
-            screenPressAction = inputs.FindAction(screenPressActionPath);
+            screenPressAction = inputs.FindAction(screenTapActionPath);
             
         }
 
