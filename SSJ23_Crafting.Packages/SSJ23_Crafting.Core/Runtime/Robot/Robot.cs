@@ -24,7 +24,7 @@ namespace SSJ23_Crafting
     [RequireComponent(typeof(RobotMotor))]
     public class Robot : MonoBehaviour
     {
-        [SerializeField] Stat maxHealth = new Stat(0f);
+        // [SerializeField] Stat maxHealth = new Stat(0f);
         [SerializeField] Stat moveSpeed = new Stat(0f);
         [SerializeField] Stat turnSpeed = new Stat(0f);
         [SerializeField] Stat jumpSpeed = new Stat(0f);
@@ -39,6 +39,9 @@ namespace SSJ23_Crafting
         [SerializeField] ParticleSystem explodePrefab;
         [SerializeField] AudioSource audioSource;
         [SerializeField] AudioClip[] explosionClips;
+        
+        [Header("Others")]
+        [SerializeField] UnitIndicator indicator;
 
         public PlayerId PlayerId { get; private set; }
         public RobotState State { get; private set; }
@@ -50,6 +53,7 @@ namespace SSJ23_Crafting
         public Stat JumpSpeed => jumpSpeed;
 
         public int Health => health;
+        public int MaxHealth { get; private set; }
 
         private Vector3 launchStart;
         private Vector3 launchMiddle;
@@ -83,6 +87,9 @@ namespace SSJ23_Crafting
             Motor = GetComponent<RobotMotor>();
             Motor.Robot = this;
             Disable();
+
+            MaxHealth = Health;
+            indicator.SetPercent((float)Health / (float)MaxHealth);
         }
 
         public void Enable()
@@ -291,6 +298,8 @@ namespace SSJ23_Crafting
 
         private void Update()
         {
+            indicator.gameObject.SetActive(State == RobotState.Battle);
+
             switch (State)
             {
                 case RobotState.Launch:
@@ -311,6 +320,8 @@ namespace SSJ23_Crafting
 
             var clampedDamage = Mathf.Clamp(damage, 0, health);
             health -= clampedDamage;
+
+            indicator.SetPercent((float)Health / (float)MaxHealth);
 
             Damaged?.Invoke(source, clampedDamage);
 
@@ -433,6 +444,7 @@ namespace SSJ23_Crafting
         public void SetOwner(PlayerId id)
         {
             PlayerId = id;
+            indicator.SetPlayer(id);
         }
     }
 }
