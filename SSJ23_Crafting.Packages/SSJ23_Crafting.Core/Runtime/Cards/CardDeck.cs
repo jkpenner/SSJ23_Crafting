@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -81,6 +82,32 @@ namespace SSJ23_Crafting
             outCard = cards[0];
             cards.RemoveAt(0);
             return true;
+        }
+
+        /// <summary>
+        /// Attempts to draw a card of the target type from the deck. Will return false
+        /// if no cards of that type are in the deck.
+        /// </summary>
+        public bool TryDrawCardType(CardType cardType, out CardData outCard)
+        {
+            if (IsEmpty)
+            {
+                outCard = null;
+                return false;
+            }
+
+            for(int i = 0; i < cards.Count; i++)
+            {
+                if (cards[i].CardType == cardType)
+                {
+                    outCard = cards[i];
+                    cards.RemoveAt(i);
+                    return true;
+                }
+            }
+
+            outCard = null;
+            return false;
         }
     }
 }

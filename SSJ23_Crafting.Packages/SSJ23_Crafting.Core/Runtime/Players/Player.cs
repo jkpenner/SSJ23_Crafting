@@ -158,7 +158,24 @@ namespace SSJ23_Crafting
                     Deck.Shuffle();
                 }
 
-                if (Deck.TryDraw(out var card))
+                CardData card;
+                // Attempt to draw a Shaper card if none are in the player's hand.
+                if (!Hand.HasCardType(CardType.Shaper))
+                {
+                    if (Deck.TryDrawCardType(CardType.Shaper, out card))
+                    {
+                        Hand.AddCard(card);
+                        events.CardDrawn.Emit(new CardEventArgs
+                        {
+                            playerId = Id,
+                            card = card
+                        });
+                        continue;
+                    }
+                    
+                }
+
+                if (Deck.TryDraw(out card))
                 {
                     Hand.AddCard(card);
                     events.CardDrawn.Emit(new CardEventArgs

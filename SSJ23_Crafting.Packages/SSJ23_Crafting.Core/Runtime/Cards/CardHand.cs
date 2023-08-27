@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace SSJ23_Crafting
@@ -48,6 +49,18 @@ namespace SSJ23_Crafting
         public void Clear()
         {
             Cards.Clear();
+        }
+
+        public bool HasCardType(CardType cardType)
+        {
+            foreach(var card in Cards)
+            {
+                if (card.CardType == cardType)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
