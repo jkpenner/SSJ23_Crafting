@@ -72,6 +72,8 @@ namespace SSJ23_Crafting
         private GameManager gameManager;
         private GameEvents gameEvents;
 
+        public bool IsEnabled { get; private set; }
+
         private void Awake()
         {
             gameManager = GameManager.FindOrCreateInstance();
@@ -85,6 +87,12 @@ namespace SSJ23_Crafting
 
         public void Enable()
         {
+            if (IsEnabled)
+            {
+                return;
+            }
+
+            IsEnabled = true;
             Motor.OnHitWall += OnHitWall;
             Motor.OnHitRobot += OnHitRobot;
             Motor.Enable();
@@ -104,6 +112,13 @@ namespace SSJ23_Crafting
 
         public void Disable()
         {
+            if(!IsEnabled)
+            {
+                return;
+            }
+
+            IsEnabled = false;
+
             foreach (var slot in attachmentSlots)
             {
                 if (slot.Card == null)
