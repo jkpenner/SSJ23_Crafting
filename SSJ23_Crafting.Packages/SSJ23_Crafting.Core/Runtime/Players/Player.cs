@@ -44,7 +44,7 @@ namespace SSJ23_Crafting
 
         public bool IsCardUsable(CardData card)
         {
-            return true;
+            return card.IsUsable(this);
         }
 
         public bool UseCard(CardData card)
