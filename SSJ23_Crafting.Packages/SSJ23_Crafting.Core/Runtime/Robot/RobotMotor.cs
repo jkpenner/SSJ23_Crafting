@@ -14,8 +14,10 @@ namespace SSJ23_Crafting
         public float JumpVelocity { get; set; }
         public float KnockBackVelocity { get; set; }
 
-        public Rigidbody Rigidbody {
-            get {
+        public Rigidbody Rigidbody
+        {
+            get
+            {
                 if (rigidbody == null)
                 {
                     rigidbody = GetComponent<Rigidbody>();
@@ -88,11 +90,14 @@ namespace SSJ23_Crafting
         public void KnockBack(Vector3 direction)
         {
             GroundCount = 0;
-            Rigidbody.velocity = new Vector3(
-                direction.x * KnockBackVelocity,
-                JumpVelocity,
-                direction.z * KnockBackVelocity
-            );
+            if (!Rigidbody.isKinematic)
+            {
+                Rigidbody.velocity = new Vector3(
+                    direction.x * KnockBackVelocity,
+                    JumpVelocity,
+                    direction.z * KnockBackVelocity
+                );
+            }
             OnKnockBack?.Invoke();
         }
 
