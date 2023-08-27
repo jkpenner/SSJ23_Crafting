@@ -14,6 +14,7 @@ namespace SSJ23_Crafting
         [SerializeField] TMPro.TMP_Text nameText;
         [SerializeField] Transform visualParent;
         [SerializeField] Image iconImage;
+        [SerializeField] RectTransform notUsable;
 
         private GameEvents events;
         public UIDragInput DragInput { get; private set; }
@@ -66,6 +67,25 @@ namespace SSJ23_Crafting
             else
             {
                 events.HideDiscard.Emit();
+            }
+        }
+
+        private void Update()
+        {
+            if (Card != null)
+            {
+                if (Card.IsUsable(GameManager.FindOrCreateInstance().PlayerOne))
+                {
+                    notUsable.gameObject.SetActive(false);
+                }
+                else
+                {
+                    notUsable.gameObject.SetActive(true);
+                }
+            }
+            else
+            {
+                notUsable.gameObject.SetActive(true);
             }
         }
 
