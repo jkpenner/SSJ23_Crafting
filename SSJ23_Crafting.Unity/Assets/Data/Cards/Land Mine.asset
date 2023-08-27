@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70d7240b3ee3f814daae7f49c9f2baaa, type: 3}
   m_Name: Land Mine
   m_EditorClassIdentifier: 
-  visualPrefab: {fileID: 6983057702340028051, guid: 9c03c5998a0aa654e9175c64ec733247,
+  visualPrefab: {fileID: 3912191102464179926, guid: fb3d80cb6a65fc64daeae745a58000a8,
     type: 3}
   displayName: Land Mine
   prefab: {fileID: 6983057702340028051, guid: 9c03c5998a0aa654e9175c64ec733247, type: 3}
