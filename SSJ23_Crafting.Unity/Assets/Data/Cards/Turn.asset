@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ceb510b4eead034c8df04fefd93edad, type: 3}
   m_Name: Turn
   m_EditorClassIdentifier: 
-  visualPrefab: {fileID: 0}
+  visualPrefab: {fileID: 8348916810217157591, guid: 265dc2732fb9db84ba1f9aa34156acd3,
+    type: 3}
   displayName: Turn
   speed: 60
   onlyWhileGrounded: 1

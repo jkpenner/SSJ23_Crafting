@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8770421eedfffe349bb2e56264ff8bbc, type: 3}
   m_Name: Face
   m_EditorClassIdentifier: 
-  visualPrefab: {fileID: 0}
-  displayName: Face
-  resourceCost: 0
+  visualPrefab: {fileID: 8348916810217157591, guid: 315db323383eda3409c35a8de5460806,
+    type: 3}
+  displayName: Target
   speed: 90
   distance: 30
   onlyWhileGrounded: 0

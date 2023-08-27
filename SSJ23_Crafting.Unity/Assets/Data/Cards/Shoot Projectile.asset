@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70d7240b3ee3f814daae7f49c9f2baaa, type: 3}
   m_Name: Shoot Projectile
   m_EditorClassIdentifier: 
-  visualPrefab: {fileID: 6848837416199628201, guid: ba10efd851196f94482b2dedf58ce66f,
+  visualPrefab: {fileID: 8348916810217157591, guid: f23fcff96f63a5b4ea7b7092d8f70119,
     type: 3}
   displayName: Shoot
   prefab: {fileID: 6848837416199628201, guid: ba10efd851196f94482b2dedf58ce66f, type: 3}

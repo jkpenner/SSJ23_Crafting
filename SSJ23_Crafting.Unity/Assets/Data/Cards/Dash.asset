@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b0daab7e536d2c49975d087cd96b172, type: 3}
   m_Name: Dash
   m_EditorClassIdentifier: 
-  visualPrefab: {fileID: 0}
+  visualPrefab: {fileID: 8348916810217157591, guid: aeb2e85d395b84745bfbda3bd59188a8,
+    type: 3}
   displayName: Dash
   speed: 10
   duration: 1

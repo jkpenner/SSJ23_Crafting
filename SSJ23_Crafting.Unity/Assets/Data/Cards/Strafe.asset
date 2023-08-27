@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93a75cf677121c646b768a883233716d, type: 3}
   m_Name: Strafe
   m_EditorClassIdentifier: 
-  visualPrefab: {fileID: 0}
+  visualPrefab: {fileID: 7342027123638469577, guid: 13c3177a78a9f5643a56098ab7e91343,
+    type: 3}
   displayName: Strafe
   strafeSpeedMod: 2

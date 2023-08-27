@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76af7d9863778c64f85eca7c5560274e, type: 3}
   m_Name: Move
   m_EditorClassIdentifier: 
-  visualPrefab: {fileID: 0}
+  visualPrefab: {fileID: 7673269010987949302, guid: 8cea68447ef54a543800536cf57d4748,
+    type: 3}
   displayName: Basic Move
   moveSpeedMod: 3

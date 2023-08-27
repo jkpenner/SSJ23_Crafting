@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1151f074cda5f384081a52b81060eb0d, type: 3}
   m_Name: Jump
   m_EditorClassIdentifier: 
-  visualPrefab: {fileID: 0}
+  visualPrefab: {fileID: 8348916810217157591, guid: a79094ef1789ffd4aa40c2e8dd567d28,
+    type: 3}
   displayName: Jump
   jumpSpeedMod: 4
   interval: 5
