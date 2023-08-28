@@ -134,13 +134,13 @@ namespace SSJ23_Crafting
 
         private IEnumerator ShowInvalidGroupRoutine()
         {
-            while (activeGroup.alpha >= 0f)
+            while (activeGroup.alpha > 0f)
             {
                 activeGroup.alpha -= Time.deltaTime;
                 yield return null;
             }
 
-            while (invalidGroup.alpha <= 1f)
+            while (invalidGroup.alpha < 1f)
             {
                 invalidGroup.alpha += Time.deltaTime;
                 yield return null;
