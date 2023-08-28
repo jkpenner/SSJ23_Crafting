@@ -51,12 +51,26 @@ namespace SSJ23_Crafting
 
         private void OnScreenTap(InputAction.CallbackContext context)
         {
+            if (ActiveInput != null)
+            {
+                if (ActiveInput.Zone != UIDragInput.DropZone.Cancel)
+                {
+                    ActiveInput.OnDragCanceled();
+                }
+                else
+                {
+                    ActiveInput.Activate();
+                }
+                ActiveInput = null;
+                return;
+            }
+
             if (!Raycast(out var input, out var result))
             {
                 Debug.Log("Did not click on a drag input");
                 return;
             }
-            
+
             input.Activate();
         }
 
@@ -74,9 +88,9 @@ namespace SSJ23_Crafting
             var screenPosition = screenPositionAction.ReadValue<Vector2>();
 
             if (RectTransformUtility.ScreenPointToWorldPointInRectangle(
-                ActiveInput.GetComponent<RectTransform>(), 
-                screenPosition, 
-                camera, 
+                ActiveInput.GetComponent<RectTransform>(),
+                screenPosition,
+                camera,
                 out var worldPoint
             ))
             {
@@ -105,9 +119,9 @@ namespace SSJ23_Crafting
             var screenPosition = screenPositionAction.ReadValue<Vector2>();
 
             if (RectTransformUtility.ScreenPointToWorldPointInRectangle(
-                ActiveInput.GetComponent<RectTransform>(), 
-                screenPosition, 
-                camera, 
+                ActiveInput.GetComponent<RectTransform>(),
+                screenPosition,
+                camera,
                 out var worldPoint
             ))
             {
