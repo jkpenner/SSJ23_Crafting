@@ -12,6 +12,7 @@ namespace SSJ23_Crafting
         Starting,
         GamePlay,
         GameOver,
+        Credits,
     }
 
     public class GameManager : Singleton<GameManager>

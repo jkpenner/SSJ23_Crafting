@@ -1,21 +1,17 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
 namespace SSJ23_Crafting
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class MainMenuStateController : GameStateController
+    public class CreditsStateController : GameStateController
     {
         [SerializeField] InputActionAsset inputs;
         [SerializeField] string screenTapActionPath = "UI/ScreenTap";
         
         [SerializeField] AudioSource clickSound;
-
-        [SerializeField] Button startButton;
-        [SerializeField] Button creditsButton;
 
         private CanvasGroup canvasGroup;
         private InputAction screenPressAction;
@@ -24,7 +20,7 @@ namespace SSJ23_Crafting
         private bool defaultBlocksRaycasts;
 
         public override GameState[] ControlledStates => new GameState[] {
-            GameState.MainMenu
+            GameState.Credits
         };
 
         protected override void Awake()
@@ -47,39 +43,20 @@ namespace SSJ23_Crafting
         public override IEnumerator OnEnterState(GameState state)
         {
             yield return Show();
-            // screenPressAction.performed += OnScreenPressed;
-
-            startButton.onClick.AddListener(OnStartPressed);
-            creditsButton.onClick.AddListener(OnCreditsPressed);
+            screenPressAction.performed += OnScreenPressed;
             // inputs.Enable();
         }
 
-        
-
         public override IEnumerator OnExitState(GameState state)
         {
-            startButton.onClick.RemoveListener(OnStartPressed);
-            creditsButton.onClick.RemoveListener(OnCreditsPressed);
             // inputs.Disable();
-            // screenPressAction.performed -= OnScreenPressed;
+            screenPressAction.performed -= OnScreenPressed;
             yield return Hide();
-        }
-
-        private void OnStartPressed()
-        {
-            gameManager.SetGameState(GameState.Starting);
-            clickSound.Play();
-        }
-
-        private void OnCreditsPressed()
-        {
-            gameManager.SetGameState(GameState.Credits);
-            clickSound.Play();
         }
 
         private void OnScreenPressed(InputAction.CallbackContext context)
         {
-            gameManager.SetGameState(GameState.Starting);
+            gameManager.SetGameState(GameState.MainMenu);
             clickSound.Play();
         }
 
