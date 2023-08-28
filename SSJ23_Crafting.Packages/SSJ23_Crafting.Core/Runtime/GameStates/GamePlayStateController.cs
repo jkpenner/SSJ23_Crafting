@@ -2,12 +2,15 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace SSJ23_Crafting
 {
     [RequireComponent(typeof(CanvasGroup))]
     public class GamePlayStateController : GameStateController
     {
+        [SerializeField] InputActionAsset inputs;
+        
         [SerializeField] TMP_Text playerOneScore;
         [SerializeField] TMP_Text playerTwoScore;
         [SerializeField] TMP_Text gameTime;
@@ -18,6 +21,8 @@ namespace SSJ23_Crafting
         private bool defaultBlocksRaycasts;
 
         private Coroutine endRoutine;
+
+        private InputAction escapeAction;
 
         public float GameTime { get; private set; }
 
@@ -37,10 +42,14 @@ namespace SSJ23_Crafting
             canvasGroup.alpha = 0f;
             canvasGroup.interactable = false;
             canvasGroup.blocksRaycasts = false;
+
+            escapeAction = inputs.FindAction("UI/Escape");
         }
 
         public override IEnumerator OnEnterState(GameState state)
         {
+            escapeAction.performed += OnEscape;
+
             if (state == GameState.Starting)
             {
                 GameTime = gameManager.Settings.GameRoundDuration;
@@ -70,11 +79,15 @@ namespace SSJ23_Crafting
             {
                 gameManager.PlayerOne.Enable();
                 gameManager.PlayerTwo.Enable();
+
+                
             }
         }
 
         public override IEnumerator OnExitState(GameState state)
         {
+            escapeAction.performed -= OnEscape;
+
             if (state == GameState.GamePlay)
             {
                 gameManager.PlayerOne.Disable();
@@ -95,6 +108,13 @@ namespace SSJ23_Crafting
 
                 // Handle Clean up here...
             }
+
+            
+        }
+
+        private void OnEscape(InputAction.CallbackContext context)
+        {
+            gameManager.SetGameState(GameState.GameOver);
         }
 
         private void Update()

@@ -14,6 +14,7 @@ namespace SSJ23_Crafting
         [SerializeField] AudioSource clickSound;
 
         private CanvasGroup canvasGroup;
+        private InputAction escapeAction;
         private InputAction screenPressAction;
 
         private bool defaultInteractable;
@@ -37,21 +38,29 @@ namespace SSJ23_Crafting
             canvasGroup.blocksRaycasts = false;
 
             screenPressAction = inputs.FindAction(screenTapActionPath);
-            
+            escapeAction = inputs.FindAction("UI/Escape");
         }
 
         public override IEnumerator OnEnterState(GameState state)
         {
             yield return Show();
             screenPressAction.performed += OnScreenPressed;
+            escapeAction.performed += OnEscape;
             // inputs.Enable();
         }
 
         public override IEnumerator OnExitState(GameState state)
         {
             // inputs.Disable();
+            escapeAction.performed -= OnEscape;
             screenPressAction.performed -= OnScreenPressed;
             yield return Hide();
+        }
+
+        private void OnEscape(InputAction.CallbackContext context)
+        {
+            gameManager.SetGameState(GameState.MainMenu);
+            clickSound.Play();
         }
 
         private void OnScreenPressed(InputAction.CallbackContext context)

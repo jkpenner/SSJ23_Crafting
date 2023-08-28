@@ -18,6 +18,7 @@ namespace SSJ23_Crafting
         [SerializeField] Button creditsButton;
 
         private CanvasGroup canvasGroup;
+        private InputAction escapeAction;
         private InputAction screenPressAction;
 
         private bool defaultInteractable;
@@ -41,6 +42,7 @@ namespace SSJ23_Crafting
             canvasGroup.blocksRaycasts = false;
 
             screenPressAction = inputs.FindAction(screenTapActionPath);
+            escapeAction = inputs.FindAction("UI/Escape");
             
         }
 
@@ -51,10 +53,14 @@ namespace SSJ23_Crafting
 
             startButton.onClick.AddListener(OnStartPressed);
             creditsButton.onClick.AddListener(OnCreditsPressed);
+            escapeAction.performed += OnEscape;
             // inputs.Enable();
         }
 
-        
+        private void OnEscape(InputAction.CallbackContext context)
+        {
+            Application.Quit();
+        }
 
         public override IEnumerator OnExitState(GameState state)
         {
@@ -62,6 +68,7 @@ namespace SSJ23_Crafting
             creditsButton.onClick.RemoveListener(OnCreditsPressed);
             // inputs.Disable();
             // screenPressAction.performed -= OnScreenPressed;
+            escapeAction.performed -= OnEscape;
             yield return Hide();
         }
 

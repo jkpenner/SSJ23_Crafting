@@ -5136,6 +5136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 498defb72fe046c43bb9fdbbbcb46e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputs: {fileID: -944628639613478452, guid: 59dd2b40689f16849b77b1e6f7303b43, type: 3}
   playerOneScore: {fileID: 1603041847}
   playerTwoScore: {fileID: 480612499}
   gameTime: {fileID: 1217327566}

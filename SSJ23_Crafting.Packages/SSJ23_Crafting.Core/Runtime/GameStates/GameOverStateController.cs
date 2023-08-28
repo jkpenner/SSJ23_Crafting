@@ -20,6 +20,7 @@ namespace SSJ23_Crafting
         [SerializeField] TMP_Text playerTwoScore;
 
         private CanvasGroup canvasGroup;
+        private InputAction escapeAction;
         private InputAction screenPressAction;
 
         private bool defaultInteractable;
@@ -44,6 +45,7 @@ namespace SSJ23_Crafting
             canvasGroup.blocksRaycasts = false;
 
             screenPressAction = inputs.FindAction(screenTapActionPath);
+            escapeAction = inputs.FindAction("UI/Escape");
         }
 
         private void Update()
@@ -66,6 +68,7 @@ namespace SSJ23_Crafting
             playerTwoScore.SetText(gameManager.PlayerTwo.Score.ToString());
 
             yield return Show();
+            escapeAction.performed += OnEscape;
             screenPressAction.performed += OnScreenPressed;
             // inputs.Enable();
         }
@@ -73,8 +76,14 @@ namespace SSJ23_Crafting
         public override IEnumerator OnExitState(GameState state)
         {
             // inputs.Disable();
+            escapeAction.performed -= OnEscape;
             screenPressAction.performed -= OnScreenPressed;
             yield return Hide();
+        }
+
+        private void OnEscape(InputAction.CallbackContext context)
+        {
+            Application.Quit();
         }
 
         private void OnScreenPressed(InputAction.CallbackContext context)
