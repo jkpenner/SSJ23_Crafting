@@ -26,3 +26,5 @@ MonoBehaviour:
   JumpCardIcon: {fileID: 21300000, guid: 7cc2c68c6a5c3ba4ca7805edf4f1bc75, type: 3}
   DamageCardIcon: {fileID: 21300000, guid: 32f07d05275377747a8d562967bde65f, type: 3}
   DefendCardIcon: {fileID: 21300000, guid: 1b879ebabd6e9bb489d5f6df4d902867, type: 3}
+  DelayBetweenAction: 1.5
+  PercentChanceToLaunch: 0.25

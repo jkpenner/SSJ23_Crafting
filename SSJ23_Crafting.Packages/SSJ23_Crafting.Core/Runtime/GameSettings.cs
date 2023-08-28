@@ -37,5 +37,10 @@ namespace SSJ23_Crafting
                 _ => null
             };
         }
+
+
+        [Header("AI")]
+        public float DelayBetweenAction = 2.5f;
+        public float PercentChanceToLaunch = 0.25f;
     }
 }

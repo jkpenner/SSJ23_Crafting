@@ -6,7 +6,6 @@ namespace SSJ23_Crafting
     public class ComputerController : PlayerController
     {
         private GameManager gameManager;
-        private float actionDelay = 2.5f;
         private float counter = 0f;
 
 
@@ -23,7 +22,7 @@ namespace SSJ23_Crafting
         public override void OnUpdate(Player player)
         {
             counter += Time.deltaTime;
-            if (counter <= actionDelay)
+            if (counter <= gameManager.Settings.DelayBetweenAction)
             {
                 return;
             }
@@ -45,14 +44,17 @@ namespace SSJ23_Crafting
                 return;
             }
 
-            if (FindAndPlayAttachments(player))
+            if (UnityEngine.Random.Range(0f, 1f) > gameManager.Settings.PercentChanceToLaunch)
             {
-                counter = 0f;
-                return;
+                if (FindAndPlayAttachments(player))
+                {
+                    counter = 0f;
+                    return;
+                }
             }
 
             Debug.Log("AI: Launching Robot");
-            
+
             var launcher = gameManager.GetLauncher(player.Id);
             if (launcher == null)
             {
