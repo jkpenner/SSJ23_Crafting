@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ResourceRegenRate: 1
   MaxResource: 10
-  ScoreToWin: 5
+  ScoreToWin: 30
   MaxHandSize: 6
   RepopulateEmptyDeck: 1
   LaunchDistance: 7
