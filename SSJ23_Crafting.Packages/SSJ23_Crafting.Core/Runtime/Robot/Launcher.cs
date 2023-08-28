@@ -20,6 +20,8 @@ namespace SSJ23_Crafting
         [SerializeField] float restoreSpeed = 5f;
         [SerializeField] float launchSpeed = 10f;
 
+        [SerializeField] RandomSound sounds;
+
         public LauncherState State { get; private set; }
         public Transform Spawn => spawn;
         public bool IsLaunching => State == LauncherState.Launch;
@@ -40,6 +42,7 @@ namespace SSJ23_Crafting
         public void Launch()
         {
             State = LauncherState.Launch;
+            sounds?.PlayRandom();
         }
 
         public void LaunchWithPullback()
@@ -54,7 +57,7 @@ namespace SSJ23_Crafting
                 if (PullbackLauncher(restoreSpeed))
                 {
                     Debug.Log("Pullback complete");
-                    State = LauncherState.Launch;
+                    Launch();
                 }
             }
             else if (State == LauncherState.Launch)

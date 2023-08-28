@@ -11,6 +11,12 @@ namespace SSJ23_Crafting
         [SerializeField] UICard cardPrefab;
         [SerializeField] UIPlayerHandSlot[] slots;
 
+
+        [Header("Sounds")]
+        [SerializeField] RandomSound useCardSounds;
+        [SerializeField] RandomSound drawCardSounds;
+        [SerializeField] RandomSound discardCardSounds;
+
         private GameEvents events;
         private GameManager gameManager;
 
@@ -106,6 +112,8 @@ namespace SSJ23_Crafting
 
             // Handle Use Animation for Card
 
+            useCardSounds?.PlayRandom();
+
             yield return MoveAllCardsLeft();
 
             Destroy(uiCard.gameObject);
@@ -122,6 +130,8 @@ namespace SSJ23_Crafting
             }
 
             // Handle Discard Animation for Card
+
+            discardCardSounds?.PlayRandom();
 
             yield return MoveAllCardsLeft();
 
@@ -159,6 +169,8 @@ namespace SSJ23_Crafting
             instance.Discarded += OnCardDiscarded;
 
             instance.Show();
+
+            drawCardSounds?.PlayRandom();
 
             if (drawCardQueue.Count > 0)
             {
